@@ -1,0 +1,31 @@
+{
+  "name": "toosoon-lsystem",
+  "version": "1.0.0",
+  "description": "L-System library",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toosoon-dev/toosoon-lsystem.git"
+  },
+  "keywords": [
+    "toosoon",
+    "lsystem",
+    "l-system"
+  ],
+  "author": "Arnaud Rocca",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/toosoon-dev/toosoon-lsystem/issues"
+  },
+  "homepage": "https://github.com/toosoon-dev/toosoon-lsystem#readme",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "toosoon-prng": "^1.0.0"
+  }
+}
