@@ -2,6 +2,8 @@
 
 TOOSOON L-System library.
 
+This library provides functionalities for creating and manipulating L-Systems (Lindenmayer systems) using various parameters.
+
 **Credits**: [lindenmayer](https://github.com/nylki/lindenmayer)
 
 ## Installation
@@ -25,12 +27,19 @@ import LSystem from 'toosoon-lsystem';
 
 const system = new LSystem({
   axiom: 'F++F++F',
-  productions: { F: 'F-F++F-F' }
+  productions: { F: 'F-F++F-F' },
+  iterations: 2
 });
 
-console.log(system.iterate(2));
+system.iterate();
+
+console.log(system.getAxiomString());
 // 'F-F++F-F-F-F++F-F++F-F++F-F-F-F++F-F++F-F++F-F-F-F++F-F++F-F++F-F-F-F++F-F++F-F++F-F-F-F++F-F++F-F++F-F-F-F++F-F'
 ```
+
+## API
+
+See full documentation [here](./docs/API.md).
 
 ## License
 

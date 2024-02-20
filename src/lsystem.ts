@@ -1,6 +1,6 @@
 import prng from 'toosoon-prng';
 
-import { IGNORED_SYMBOLS } from './symbols';
+import { DEFAULT_SYMBOLS, IGNORED_SYMBOLS } from './symbols';
 import { normalizeAxiom, normalizeProduction, transformParamsToDefines, transformPhraseToAxiom } from './transformers';
 import {
   Alphabet,
@@ -10,6 +10,7 @@ import {
   Command,
   CommandKey,
   Commands,
+  DefaultAlphabet,
   Define,
   DefineKey,
   Defines,
@@ -33,7 +34,7 @@ export type LSystemParameters<A extends Alphabet, I extends Alphabet = IgnoredAl
   commands?: { [key in CommandKey<A, I>]?: Command<A, I> };
 };
 
-export default class LSystem<A extends Alphabet, I extends Alphabet = IgnoredAlphabet> {
+export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alphabet = IgnoredAlphabet> {
   readonly alphabet: A;
   readonly ignoredSymbols: I;
   axiom: Axiom<A | I> = [];
@@ -43,7 +44,7 @@ export default class LSystem<A extends Alphabet, I extends Alphabet = IgnoredAlp
   commands: Commands<A, I> = new Map();
 
   constructor({
-    alphabet,
+    alphabet = [...DEFAULT_SYMBOLS] as A,
     ignoredSymbols = [...IGNORED_SYMBOLS] as I,
     axiom = '',
     iterations = 1,
@@ -62,32 +63,30 @@ export default class LSystem<A extends Alphabet, I extends Alphabet = IgnoredAlp
     if (commands) this.setCommands(commands);
   }
 
-  setAxiom(axiom: AxiomParameter<A | I>) {
+  public setAxiom(axiom: AxiomParameter<A | I>) {
     this.axiom = normalizeAxiom<A, I>(axiom, this.alphabet, this.ignoredSymbols, this.defines);
   }
 
-  setDefine(key: DefineKey, define: Define) {
+  public setDefine(key: DefineKey, define: Define) {
     this.defines.set(key, define);
   }
 
-  setDefines(defines: { [key in DefineKey]?: Define }) {
+  public setDefines(defines: { [key in DefineKey]?: Define }) {
     this.clearDefines();
-    Object.entries(defines).forEach(([key, define]) => {
-      this.setDefine(key as DefineKey, define as Define);
-    });
+    Object.entries(defines).forEach(([key, define]) => this.setDefine(key as DefineKey, define as Define));
   }
 
-  clearDefines() {
+  public clearDefines() {
     this.defines = new Map();
   }
 
-  setProduction(successorParameter: SuccessorParameter<A>, productionParameter: ProductionParameter<A, I>) {
+  public setProduction(successorParameter: SuccessorParameter<A>, productionParameter: ProductionParameter<A, I>) {
     // Apply transformers and normalizations
     const { symbol, production } = normalizeProduction<A, I>(successorParameter, productionParameter);
 
     if (this.productions.has(symbol)) {
       // Add new production to array if other productions are already associated to this symbol
-      let existingProduction = this.productions.get(symbol) as Production<A, I> | Production<A, I>[];
+      let existingProduction = this.productions.get(symbol) as Production<A, I> | Array<Production<A, I>>;
       // TODO: Compare productions context and merge/replace existing production
 
       if (!(existingProduction instanceof Array)) {
@@ -102,18 +101,18 @@ export default class LSystem<A extends Alphabet, I extends Alphabet = IgnoredAlp
     }
   }
 
-  setProductions(productions: { [successorParameter in SuccessorParameter<A>]?: ProductionParameter<A, I> }) {
+  public setProductions(productions: { [successorParameter in SuccessorParameter<A>]?: ProductionParameter<A, I> }) {
     this.clearProductions();
-    Object.entries(productions).forEach(([successorParameter, productionParameter]) => {
-      this.setProduction(successorParameter as SuccessorParameter<A>, productionParameter as ProductionParameter<A, I>);
-    });
+    Object.entries(productions).forEach(([successorParameter, productionParameter]) =>
+      this.setProduction(successorParameter as SuccessorParameter<A>, productionParameter as ProductionParameter<A, I>)
+    );
   }
 
-  clearProductions() {
+  public clearProductions() {
     this.productions = new Map();
   }
 
-  getProductionResult(
+  protected getProductionResult(
     production: Production<A, I>,
     part: AxiomPart<A | I>,
     index: number,
@@ -183,7 +182,7 @@ export default class LSystem<A extends Alphabet, I extends Alphabet = IgnoredAlp
       result = transformPhraseToAxiom<A, I>(production.successor, this.alphabet, this.ignoredSymbols, defines);
     } else if (typeof production.successor === 'function') {
       // If successor is a function, execute function and append returned value
-      result = production.successor({ axiom: this.axiom, index, part });
+      result = production.successor({ axiom: this.axiom, index, part, params: part.params ?? [] }) ?? false;
     } else if (production.successor instanceof Array) {
       // If successor is an Axiom array, return value
       result = production.successor;
@@ -197,7 +196,7 @@ export default class LSystem<A extends Alphabet, I extends Alphabet = IgnoredAlp
     return result;
   }
 
-  applyProductions() {
+  protected applyProductions() {
     let axiom: Axiom<A | I> = [];
     let index = 0;
 
@@ -232,18 +231,22 @@ export default class LSystem<A extends Alphabet, I extends Alphabet = IgnoredAlp
     return axiom;
   }
 
-  setCommand(symbol: Symbol<A | I>, command: Command<A, I>) {
+  public setCommand(symbol: Symbol<A | I>, command: Command<A, I>) {
     this.commands.set(symbol, command);
   }
 
-  setCommands(commands: { [key in CommandKey<A, I>]?: Command<A, I> }) {
+  public setCommands(commands: { [key in CommandKey<A, I>]?: Command<A, I> }) {
     this.clearCommands();
-    Object.entries(commands).forEach(([key, command]) => {
-      this.setCommand(key as CommandKey<A, I>, command as Command<A, I>);
-    });
+    Object.entries(commands).forEach(([key, command]) =>
+      this.setCommand(key as CommandKey<A, I>, command as Command<A, I>)
+    );
   }
 
-  run() {
+  public clearCommands() {
+    this.commands = new Map();
+  }
+
+  public run() {
     let index = 0;
     // Execute commands
     this.axiom.forEach((part) => {
@@ -256,11 +259,7 @@ export default class LSystem<A extends Alphabet, I extends Alphabet = IgnoredAlp
     });
   }
 
-  clearCommands() {
-    this.commands = new Map();
-  }
-
-  iterate(iterations: number = this.iterations) {
+  public iterate(iterations: number = this.iterations) {
     this.iterations = Math.floor(iterations);
     for (let i = 0; i < iterations; i++) {
       this.axiom = this.applyProductions();
@@ -268,8 +267,21 @@ export default class LSystem<A extends Alphabet, I extends Alphabet = IgnoredAlp
     return this.axiom;
   }
 
-  getAxiomString(): string {
+  public getAxiomString(): string {
     if (typeof this.axiom === 'string') return this.axiom;
     return this.axiom.reduce((prev, current) => prev + current.symbol, '');
   }
 }
+
+const ALPHABET = ['A', 'B', 'C', 'G'] as const;
+type A = Alphabet<(typeof ALPHABET)[number]>;
+
+new LSystem<A>({
+  alphabet: [...ALPHABET],
+  productions: {
+    A: {
+      successor: 'B',
+      params: ['t']
+    }
+  }
+});

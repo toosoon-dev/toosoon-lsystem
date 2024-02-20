@@ -1,9 +1,10 @@
-import { IGNORED_SYMBOLS } from './symbols';
+import { DEFAULT_SYMBOLS, IGNORED_SYMBOLS } from './symbols';
 
 // *********************
 // Alphabets
 // *********************
 export type Alphabet<S extends string = string> = Array<S>;
+export type DefaultAlphabet = Alphabet<(typeof DEFAULT_SYMBOLS)[number]>;
 export type IgnoredAlphabet = Alphabet<(typeof IGNORED_SYMBOLS)[number]>;
 
 export type Phrase = string;
@@ -27,24 +28,6 @@ export type Axiom<A extends Alphabet> = Array<AxiomPart<A>>;
 export type AxiomPart<A extends Alphabet> = { symbol: Symbol<A>; params?: number[] };
 
 // *********************
-// Production
-// *********************
-export type ProductionParameter<A extends Alphabet, I extends Alphabet> = Phrase | Production<A, I>;
-
-export type Production<A extends Alphabet, I extends Alphabet> = (
-  | ({ successor: Successor<A | I> } & { stochastic?: never })
-  | ({ stochastic: Array<StochasticSuccessor<A | I>> } & { successor?: never })
-) & {
-  context?: Context<A>;
-  condition?: Condition<A | I>;
-  params?: string[];
-};
-
-export type Productions<A extends Alphabet, I extends Alphabet> = Map<Symbol<A>, Production<A, I> | Production<A, I>[]>;
-
-export type ProductionResult<A extends Alphabet> = false | Phrase | Axiom<A> | AxiomPart<A>;
-
-// *********************
 // Successors
 // *********************
 export type SuccessorParameter<A extends Alphabet> = //
@@ -59,13 +42,15 @@ export type StochasticSuccessor<A extends Alphabet> = {
 
 export type SuccessorFunction<A extends Alphabet> = ({
   axiom,
+  index,
   part,
-  index
+  params
 }: {
   axiom: Axiom<A>;
-  part: AxiomPart<A>;
   index: number;
-}) => ProductionResult<A>;
+  part: AxiomPart<A>;
+  params: number[];
+}) => ProductionResult<A> | undefined;
 
 // Options
 export type ContextParameter<A extends Alphabet> = ContextSymbol<A> | Symbols<A>;
@@ -74,13 +59,35 @@ export type Context<A extends Alphabet> = { before?: ContextParameter<A>; after?
 export type Condition<A extends Alphabet> = ({
   axiom,
   index,
-  part
+  part,
+  params
 }: {
   axiom: Axiom<A>;
   index: number;
   part: AxiomPart<A>;
   params: number[];
 }) => boolean;
+
+// *********************
+// Productions
+// *********************
+export type ProductionParameter<A extends Alphabet, I extends Alphabet> = Phrase | Production<A, I>;
+
+export type ProductionResult<A extends Alphabet> = false | Phrase | Axiom<A> | AxiomPart<A>;
+
+export type Production<A extends Alphabet, I extends Alphabet> = (
+  | ({ successor: Successor<A | I> } & { stochastic?: never })
+  | ({ stochastic: Array<StochasticSuccessor<A | I>> } & { successor?: never })
+) & {
+  context?: Context<A>;
+  condition?: Condition<A | I>;
+  params?: string[];
+};
+
+export type Productions<A extends Alphabet, I extends Alphabet> = Map<
+  Symbol<A>,
+  Production<A, I> | Array<Production<A, I>>
+>;
 
 // *********************
 // Commands

@@ -1,11 +1,12 @@
 {
-  "include": ["src"],
+  "include": ["src", "docs/examples/turtle.ts"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "lib",
     "target": "ES5",
-    "module": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "lib": ["DOM", "ESNext"],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,

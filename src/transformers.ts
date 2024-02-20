@@ -212,9 +212,7 @@ export function transformParamsToDefines(keys?: string[], values?: number[]): De
   // Create defines from from classic parametric syntax
   const defines: Defines = new Map();
   if (keys && values && keys.length === values.length) {
-    keys.forEach((key, index) => {
-      defines.set(key, values[index]);
-    });
+    keys.forEach((key, index) => defines.set(key, values[index]));
   } else {
     console.warn(
       'transformParamsToDefines',

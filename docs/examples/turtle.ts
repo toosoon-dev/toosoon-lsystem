@@ -67,55 +67,63 @@
 //   }
 // }
 
-// f: () => {
-//   turtle.move();
-// }
-// F: () => {
-//   const from = turtle.position.clone();
-//   turtle.move();
-//   const to = turtle.position.clone();
-//   // from -> to
-// }
-// '+': () => {
-//   turtle.turn(angle);
-// }
-// '-': () => {
-//   turtle.turn(-angle);
-// }
-// '\\': () => {
-//   turtle.roll(angle);
-// }
-// '/': () => {
-//   turtle.roll(-angle);
-// }
-// '&': () => {
-//   turtle.pitch(angle);
-// }
-// '^': () => {
-//   turtle.pitch(-angle);
-// }
-// '|': () => {
-//   turtle.turn(PI);
-// }
-// '!': () => {
-//   turtle.decrease(value);
-// }
-// '[': () => {
-//   // Push the current state of the turtle onto a pushdown stack.
-//   // The information saved on the stack contains the turtle’s position and orientation, and possibly other attributes.
-//   stack.push(turtle.clone());
-// }
-// ']': () => {
-//   // Pop a state from the stack and make it the current state of the turtle.
-//   turtle = stack.pop();
-// }
-// '{': () => {
-//   // Start a new polygon by pushing the current polygon on the polygon stack and creating an empty current polygon.
-//   polygon = [];
-//   polygons.push(polygon);
-// }
-// '}': () => {
-//   // Draw the current polygon using the specified vertices, then pop a polygon from the stack and make it the current polygon.
-//   polygon = polygons.pop() as Vector3[];
-//   // draw current polygon
-// }
+// const turtle = new Turtle();
+// const step = 0.1;
+// const theta = Math.PI;
+
+// const system = new LSystem({
+//   commands: {
+//     f: () => {
+//       turtle.move(step);
+//     },
+//     F: () => {
+//       const from = turtle.position.clone();
+//       turtle.move(step);
+//       const to = turtle.position.clone();
+//       // from -> to
+//     },
+//     '+': () => {
+//       turtle.turn(angle);
+//     },
+//     '-': () => {
+//       turtle.turn(-angle);
+//     },
+//     '\\': () => {
+//       turtle.roll(angle);
+//     },
+//     '/': () => {
+//       turtle.roll(-angle);
+//     },
+//     '&': () => {
+//       turtle.pitch(angle);
+//     },
+//     '^': () => {
+//       turtle.pitch(-angle);
+//     },
+//     '|': () => {
+//       turtle.turn(PI);
+//     },
+//     '!': () => {
+//       turtle.decrease(value);
+//     },
+//     '[': () => {
+//       // Push the current state of the turtle onto a pushdown stack.
+//       // The information saved on the stack contains the turtle’s position and orientation, and possibly other attributes.
+//       stack.push(turtle.clone());
+//     },
+//     ']': () => {
+//       // Pop a state from the stack and make it the current state of the turtle.
+//       turtle = stack.pop();
+//     },
+//     '{': () => {
+//       // Start a new polygon by pushing the current polygon on the polygon stack and creating an empty current polygon.
+//       polygon = [];
+//       polygons.push(polygon);
+//     },
+//     '}': () => {
+//       // Draw the current polygon using the specified vertices, then pop a polygon from the stack and make it the current polygon.
+//       polygon = polygons.pop() as Vector3[];
+//       // draw current polygon
+//     },
+//   }
+// });
