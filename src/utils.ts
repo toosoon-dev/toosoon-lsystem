@@ -1,9 +1,12 @@
-import { BRANCH_SYMBOLS } from './symbols';
+import { BRANCH_SYMBOLS } from './constants';
 import { transformPhraseToAxiom } from './transformers';
 import { Alphabet, Axiom, ContextParameter, Defines } from './types';
 
 /**
  * Check if a symbol matches a context
+ *
+ * @param {object}
+ * @returns {boolean}
  */
 export function matchContext<A extends Alphabet, I extends Alphabet>({
   axiom,

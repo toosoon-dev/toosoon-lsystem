@@ -1,4 +1,4 @@
-import { PARAMETRIC_SYMBOLS } from './symbols';
+import { PARAMETRIC_SYMBOLS } from './constants';
 import {
   Alphabet,
   Axiom,

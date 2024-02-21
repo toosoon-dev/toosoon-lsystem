@@ -1,3 +1,6 @@
+// *********************
+// Symbols
+// *********************
 export const BRANCH_SYMBOLS = ['[', ']'] as const;
 
 export const PARAMETRIC_SYMBOLS = ['(', ')'] as const;

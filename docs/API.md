@@ -2,34 +2,33 @@
 
 ## Types
 
-All the references to existing types are described [here](./TYPES.md).
+All the references to API types are described [here](./TYPES.md).
 
-## Create L-System instance
+## L-System
 
-- LSystem
-  - [new LSystem(parameters)](#new-lsystem)
-    - [.alphabet](#alphabet)
-    - [.ignoredSymbols](#ignoredsymbols)
-    - [.axiom](#axiom)
-    - [.iterations](#iterations)
-    - [.defines](#defines)
-    - [.productions](#productions)
-    - [.commands](#commands)
-    - [.setAxiom(axiom)](#set-axiom)
-    - [.setDefine(key, define)](#set-define)
-    - [.setDefines(defines)](#set-defines)
-    - [.clearDefines()](#clear-defines)
-    - [.setProduction(successorParameter, productionParameter)](#set-production)
-    - [.setProductions(productions)](#set-productions)
-    - [.clearProductions()](#clear-productions)
-    - [.setCommand(symbol, command)](#set-command)
-    - [.setCommands(commands)](#set-commands)
-    - [.clearCommands()](#clear-commands)
-    - [.run()](#run)
-    - [.iterate(iterations)](#iterate)
-    - [.getAxiomString()](#get-axiom-string): `string`
+- [new LSystem(parameters)](#parameters)
+  - [.alphabet](#alphabet)
+  - [.ignoredSymbols](#ignoredsymbols)
+  - [.axiom](#axiom)
+  - [.iterations](#iterations)
+  - [.defines](#defines)
+  - [.productions](#productions)
+  - [.commands](#commands)
+  - [.setAxiom(axiom)](#set-axiom)
+  - [.setDefine(key, define)](#set-define)
+  - [.setDefines(defines)](#set-defines)
+  - [.clearDefines()](#clear-defines)
+  - [.setProduction(successorParameter, productionParameter)](#set-production)
+  - [.setProductions(productions)](#set-productions)
+  - [.clearProductions()](#clear-productions)
+  - [.setCommand(symbol, command)](#set-command)
+  - [.setCommands(commands)](#set-commands)
+  - [.clearCommands()](#clear-commands)
+  - [.run()](#run)
+  - [.iterate(iterations)](#iterate): `Axiom`
+  - [.getAxiomString()](#get-axiom-string): `string`
 
-### <a id="new-lsystem"></a> Parameters
+### Parameters
 
 | Parameter                   | Type                                                                   | Default           | Description                                                                        |
 | --------------------------- | ---------------------------------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------- |
@@ -102,79 +101,124 @@ system.commands: Commands;
 
 ### Methods
 
-<a id="set-axiom"></a>Set the axiom of the L-System.
+##### setAxiom(axiom) <a id="set-axiom"></a>
+
+Set the axiom of the L-System.
+
+- `axiom`: Initial phrase of the L-System.
 
 ```ts
 system.setAxiom(axiom: AxiomParameter) => void;
 ```
 
-<a id="set-define"></a>Set a define for the L-System.
+##### setDefine(key, define) <a id="set-define"></a>
+
+Set a define for the L-System.
+
+- `key`: Key for defining constant.
+- `define`: A constant value.
 
 ```ts
 system.setDefine(key: DefineKey, define: Define) => void;
 ```
 
-<a id="set-defines"></a>Set multiple defines for the L-System.
+##### setDefines(defines) <a id="set-defines"></a>
+
+Set multiple defines for the L-System.
+
+- `defines`: Collection of defined constants.
 
 ```ts
 system.setDefines(defines: { [key in DefineKey]?: Define }) => void;
 ```
 
-<a id="clear-defines"></a>Clear all defines from the L-System.
+##### clearDefines() <a id="clear-defines"></a>
+
+Clear all defines from the L-System.
 
 ```ts
 system.clearDefines() => void;
 ```
 
-<a id="set-production"></a>Set a production for the L-System.
+##### setProduction(successorParameter, productionParameter) <a id="set-production"></a>
+
+Set a production for the L-System.
+
+- `successorParameter`: Successor symbol mapped to the production.
+- `productionParameter`: Production rule mapped to the symbol.
 
 ```ts
 system.setProduction(successorParameter: SuccessorParameter, productionParameter: ProductionParameter) => void;
 ```
 
-<a id="set-productions"></a>Set multiple productions for the L-System.
+##### setProductions(productions) <a id="set-productions"></a>
+
+Set multiple productions for the L-System.
+
+- `productions`: Collection of production rules mapped to symbols.
 
 ```ts
 system.setProductions(productions: { [successorParameter in SuccessorParameter]?: ProductionParameter }) => void;
 ```
 
-<a id="clear-productions"></a>Clear all productions from the L-System.
+##### clearProductions() <a id="clear-productions"></a>
+
+Clear all productions from the L-System.
 
 ```ts
 system.clearProductions() => void;
 ```
 
-<a id="set-command"></a>Set a command for the L-System.
+##### setCommand(symbol, command) <a id="set-command"></a>
+
+Set a command for the L-System.
+
+- `symbol`: Symbol used as a key for the command.
+- `command`: Function to be executed for each corresponding symbol.
 
 ```ts
 system.setCommand(symbol: Symbol, command: Command)  => void;
 ```
 
-<a id="set-commands"></a>Set multiple commands for the L-System.
+##### setCommands(commands) <a id="set-commands"></a>
+
+Set multiple commands for the L-System.
+
+- `commands`: Collection of commands mapped to symbols.
 
 ```ts
 system.setCommands(commands: { [key in CommandKey]?: Command }) => void;
 ```
 
-<a id="clear-commands"></a>Clear all commands from the L-System.
+##### clearCommands() <a id="clear-commands"></a>
+
+Clear all commands from the L-System.
 
 ```ts
 system.clearCommands() => void;
 ```
 
-<a id="run"></a>Execute commands defined in the L-System.
+##### run() <a id="run"></a>
+
+Execute the commands defined in the L-System.
 
 ```ts
 system.run() => void;
 ```
 
-<a id="iterate"></a>Perform a specified number of iterations on the L-System.
+##### iterate(iterations) <a id="iterate"></a>
+
+Perform a specified number of iterations on the L-System.
+
+- `[iterations]`: Number of iterations.
 
 ```ts
 system.iterate(iterations?: number) => Axiom;
 ```
 
-<a id="get-axiom-string"></a>Get the current axiom of the L-System.
+##### getAxiomString() <a id="get-axiom-string"></a>
+
+Get the current axiom of the L-System.
 
 ```ts
 system.getAxiomString() => string;
@@ -186,17 +230,17 @@ system.getAxiomString() => string;
 
 ```ts
 new LSystem({
-  axiom: 'F',
+  axiom: 'A',
   productions: {
-    F: 'F-A',
-    A: 'F+A'
+    A: 'A-B',
+    B: 'A+B'
   }
 });
 ```
 
 ### Custom Alphabet
 
-Using custom alphabets allows you to use custom Strings as symbols.
+Using custom alphabets allows you to use custom strings as symbols.
 
 ```ts
 const ALPHABET = ['Block', 'Line'] as const;
@@ -207,20 +251,14 @@ new LSystem<A>({
   axiom: 'Block',
   productions: {
     Block: 'Block-Line',
-    Line: 'Line++Line--Block'
+    Line: 'Line++Block--Line'
   }
 });
 ```
 
 ### Defines
 
-- Define
-
-  `key`: Name of the define Object.
-
-  `value`: Value of that will be injected by L-System.
-
-Defines are especially usefull coupled with [parametric syntax](#parametric-syntax).
+Defines are especially usefull when coupled with [parametric syntax](#parametric-syntax).
 
 ```ts
 new LSystem({
@@ -231,12 +269,6 @@ new LSystem({
 ```
 
 ### Productions
-
-- Production
-
-  `symbol`: One symbol string from the L-System Alphabet.
-
-  `production`: Either the result of a production or a production Object.
 
 You can set productions in two ways.
 
@@ -391,11 +423,11 @@ system.setProduction('F', {
 
 #### Apply Productions
 
-To apply your productions onto the axiom you call `iterate([iterations])` on your L-System instance.
+To apply your productions onto the axiom you call `iterate()` on your L-System instance.
 
 In each iteration step, all symbols of the axiom are replaced with new symbols based on your defined productions.
 
-When you call `iterate()`, the reduced string result/axiom of your L-System is returned. You can also get the string result/axiom via `getAxiomString()`.
+When you call `iterate()`, the resulted axiom of your L-System is returned. You can also get the resulted axiom via `getAxiomString()`.
 
 ### Commands
 
@@ -410,12 +442,12 @@ A very common application for commands would be the creation of turtle graphics.
 ```ts
 // Instead of:
 system.setProduction('F', {
-  successor: 'C',
-  context: { before: 'AB', after: 'D' }
+  successor: 'G',
+  context: { before: 'AB', after: 'C' }
 });
 
 // You can write:
-system.setProduction('AB<F>D', 'C');
+system.setProduction('AB<F>C', 'G');
 ```
 
 #### Parametric syntax

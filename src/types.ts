@@ -1,4 +1,4 @@
-import { DEFAULT_SYMBOLS, IGNORED_SYMBOLS } from './symbols';
+import { DEFAULT_SYMBOLS, IGNORED_SYMBOLS } from './constants';
 
 // *********************
 // Alphabets
@@ -28,8 +28,34 @@ export type Axiom<A extends Alphabet> = Array<AxiomPart<A>>;
 export type AxiomPart<A extends Alphabet> = { symbol: Symbol<A>; params?: number[] };
 
 // *********************
-// Successors
+// Defines
 // *********************
+export type DefineKey = string;
+export type Define = number;
+export type Defines = Map<DefineKey, Define>;
+
+// *********************
+// Productions
+// *********************
+export type ProductionParameter<A extends Alphabet, I extends Alphabet> = Phrase | Production<A, I>;
+
+export type ProductionResult<A extends Alphabet> = false | Phrase | Axiom<A> | AxiomPart<A>;
+
+export type Production<A extends Alphabet, I extends Alphabet> = (
+  | ({ successor: Successor<A | I> } & { stochastic?: never })
+  | ({ stochastic: Array<StochasticSuccessor<A | I>> } & { successor?: never })
+) & {
+  context?: Context<A>;
+  condition?: Condition<A | I>;
+  params?: string[];
+};
+
+export type Productions<A extends Alphabet, I extends Alphabet> = Map<
+  Symbol<A>,
+  Production<A, I> | Array<Production<A, I>>
+>;
+
+// Successors
 export type SuccessorParameter<A extends Alphabet> = //
   `${ContextBefore<A> | ''}${Symbol<A> | ParametricSymbol<A>}${ContextAfter<A> | ''}`;
 
@@ -69,27 +95,6 @@ export type Condition<A extends Alphabet> = ({
 }) => boolean;
 
 // *********************
-// Productions
-// *********************
-export type ProductionParameter<A extends Alphabet, I extends Alphabet> = Phrase | Production<A, I>;
-
-export type ProductionResult<A extends Alphabet> = false | Phrase | Axiom<A> | AxiomPart<A>;
-
-export type Production<A extends Alphabet, I extends Alphabet> = (
-  | ({ successor: Successor<A | I> } & { stochastic?: never })
-  | ({ stochastic: Array<StochasticSuccessor<A | I>> } & { successor?: never })
-) & {
-  context?: Context<A>;
-  condition?: Condition<A | I>;
-  params?: string[];
-};
-
-export type Productions<A extends Alphabet, I extends Alphabet> = Map<
-  Symbol<A>,
-  Production<A, I> | Array<Production<A, I>>
->;
-
-// *********************
 // Commands
 // *********************
 export type CommandKey<A extends Alphabet, I extends Alphabet> = Symbol<A | I>;
@@ -103,10 +108,3 @@ export type Command<A extends Alphabet, I extends Alphabet> = ({
   params: number[];
 }) => void;
 export type Commands<A extends Alphabet, I extends Alphabet> = Map<CommandKey<A, I>, Command<A, I>>;
-
-// *********************
-// Defines
-// *********************
-export type DefineKey = string;
-export type Define = number;
-export type Defines = Map<DefineKey, Define>;

@@ -40,14 +40,24 @@ type Axiom = Array<AxiomPart>;
 type AxiomPart = { symbol: Symbol; params?: number[] };
 ```
 
-## Successors
+## Defines
 
-`SuccessorParameter`: Represent the successor symbol along with optional context symbols. It is a string based on a single `Symbol` with classic syntax supports.
-
-`Successor`: Represent the successor of a symbol in the L-System. It can be `Phrase` , a `Function` or an `Axiom` Array.
+`DefineKey`: Represent the key for defining constants.
 
 ```ts
-type Successor = Phrase | SuccessorFunction | Axiom;
+type DefineKey = string;
+```
+
+`Define`: Represent a constant value.
+
+```ts
+type Define = number;
+```
+
+`Defines`: Represent a collection of defined constants.
+
+```ts
+type Defines = Map<DefineKey, Define>;
 ```
 
 ## Productions
@@ -74,6 +84,16 @@ type Production = ({ successor: Successor } | { stochastic: Array<StochasticSucc
 
 ```ts
 type Productions = Map<Symbol, Production | Array<Production>>;
+```
+
+### Successors
+
+`SuccessorParameter`: Represent the successor symbol along with optional context symbols. It is a string based on a single `Symbol` with classic syntax supports.
+
+`Successor`: Represent the successor of a symbol in the L-System. It can be `Phrase` , a `Function` or an `Axiom` Array.
+
+```ts
+type Successor = Phrase | SuccessorFunction | Axiom;
 ```
 
 ### Options
@@ -120,24 +140,4 @@ type Command = ({ index, part, params }: { index: number; part: AxiomPart; param
 
 ```ts
 type Commands = Map<CommandKey, Command>;
-```
-
-## Defines
-
-`DefineKey`: Represent the key for defining constants.
-
-```ts
-type DefineKey = string;
-```
-
-`Define`: Represent a constant value.
-
-```ts
-type Define = number;
-```
-
-`Defines`: Represent a collection of defined constants.
-
-```ts
-type Defines = Map<DefineKey, Define>;
 ```

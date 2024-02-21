@@ -1,6 +1,6 @@
 import prng from 'toosoon-prng';
 
-import { DEFAULT_SYMBOLS, IGNORED_SYMBOLS } from './symbols';
+import { DEFAULT_SYMBOLS, IGNORED_SYMBOLS } from './constants';
 import { normalizeAxiom, normalizeProduction, transformParamsToDefines, transformPhraseToAxiom } from './transformers';
 import {
   Alphabet,
@@ -34,6 +34,9 @@ export type LSystemParameters<A extends Alphabet, I extends Alphabet = IgnoredAl
   commands?: { [key in CommandKey<A, I>]?: Command<A, I> };
 };
 
+/**
+ * @exports
+ */
 export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alphabet = IgnoredAlphabet> {
   readonly alphabet: A;
   readonly ignoredSymbols: I;
@@ -63,24 +66,52 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
     if (commands) this.setCommands(commands);
   }
 
-  public setAxiom(axiom: AxiomParameter<A | I>) {
+  /**
+   * Set the axiom of the L-System
+   *
+   * @param {AxiomParameter} axiom Initial phrase of this L-System
+   */
+  public setAxiom(axiom: AxiomParameter<A | I>): void {
     this.axiom = normalizeAxiom<A, I>(axiom, this.alphabet, this.ignoredSymbols, this.defines);
   }
 
-  public setDefine(key: DefineKey, define: Define) {
+  /**
+   * Set a define for this L-System
+   *
+   * @param {DefineKey} key Key for defining constant
+   * @param {Define} define A constant value
+   */
+  public setDefine(key: DefineKey, define: Define): void {
     this.defines.set(key, define);
   }
 
-  public setDefines(defines: { [key in DefineKey]?: Define }) {
+  /**
+   * Set multiple defines for the L-System.
+   *
+   * @param {object} defines Collection of defined constants
+   */
+  public setDefines(defines: { [key in DefineKey]?: Define }): void {
     this.clearDefines();
     Object.entries(defines).forEach(([key, define]) => this.setDefine(key as DefineKey, define as Define));
   }
 
-  public clearDefines() {
+  /**
+   * Clear all defines from this L-System
+   */
+  public clearDefines(): void {
     this.defines = new Map();
   }
 
-  public setProduction(successorParameter: SuccessorParameter<A>, productionParameter: ProductionParameter<A, I>) {
+  /**
+   * Set a production for the L-System.
+   *
+   * @param {SuccessorParameter} successorParameter   Successor symbol mapped to the production
+   * @param {ProductionParameter} productionParameter Production rule mapped to the symbol
+   */
+  public setProduction(
+    successorParameter: SuccessorParameter<A>,
+    productionParameter: ProductionParameter<A, I>
+  ): void {
     // Apply transformers and normalizations
     const { symbol, production } = normalizeProduction<A, I>(successorParameter, productionParameter);
 
@@ -101,22 +132,41 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
     }
   }
 
-  public setProductions(productions: { [successorParameter in SuccessorParameter<A>]?: ProductionParameter<A, I> }) {
+  /**
+   * Set multiple productions for this L-System
+   *
+   * @param {object} productions Collection of production rules mapped to symbols
+   */
+  public setProductions(productions: {
+    [successorParameter in SuccessorParameter<A>]?: ProductionParameter<A, I>;
+  }): void {
     this.clearProductions();
     Object.entries(productions).forEach(([successorParameter, productionParameter]) =>
       this.setProduction(successorParameter as SuccessorParameter<A>, productionParameter as ProductionParameter<A, I>)
     );
   }
 
-  public clearProductions() {
+  /**
+   * Clear all productions from the L-System
+   */
+  public clearProductions(): void {
     this.productions = new Map();
   }
 
+  /**
+   * Return the result of a production rule
+   *
+   * @param {Production} production
+   * @param {AxiomPart} part
+   * @param {number} index
+   * @param {boolean} [recursive=false]
+   * @returns {ProductionResult}
+   */
   protected getProductionResult(
     production: Production<A, I>,
     part: AxiomPart<A | I>,
     index: number,
-    recursive = false
+    recursive: boolean = false
   ): ProductionResult<A | I> {
     let result: ProductionResult<A | I> = false;
     let precheck = true;
@@ -196,7 +246,13 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
     return result;
   }
 
-  protected applyProductions() {
+  /**
+   * Apply productions rules on current axiom.
+   * It corresponds to 1 iteration of this L-System.
+   *
+   * @returns {Axiom}
+   */
+  protected applyProductions(): Axiom<A | I> {
     let axiom: Axiom<A | I> = [];
     let index = 0;
 
@@ -231,22 +287,39 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
     return axiom;
   }
 
-  public setCommand(symbol: Symbol<A | I>, command: Command<A, I>) {
+  /**
+   * Set a command for this L-System
+   *
+   * @param {Symbol} symbol   Symbol used as a key for the command
+   * @param {Command} command Function to be executed for each corresponding symbol
+   */
+  public setCommand(symbol: Symbol<A | I>, command: Command<A, I>): void {
     this.commands.set(symbol, command);
   }
 
-  public setCommands(commands: { [key in CommandKey<A, I>]?: Command<A, I> }) {
+  /**
+   * Set multiple commands for this L-System
+   *
+   * @param {object} commands Collection of commands mapped to symbols
+   */
+  public setCommands(commands: { [key in CommandKey<A, I>]?: Command<A, I> }): void {
     this.clearCommands();
     Object.entries(commands).forEach(([key, command]) =>
       this.setCommand(key as CommandKey<A, I>, command as Command<A, I>)
     );
   }
 
-  public clearCommands() {
+  /**
+   * Clear all commands from this L-System
+   */
+  public clearCommands(): void {
     this.commands = new Map();
   }
 
-  public run() {
+  /**
+   * Execute the commands defined in this L-System
+   */
+  public run(): void {
     let index = 0;
     // Execute commands
     this.axiom.forEach((part) => {
@@ -259,7 +332,13 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
     });
   }
 
-  public iterate(iterations: number = this.iterations) {
+  /**
+   * Perform a specified number of iterations on this L-System
+   *
+   * @param {number} [iterations] Number of iterations
+   * @returns {Axiom}
+   */
+  public iterate(iterations: number = this.iterations): Axiom<A | I> {
     this.iterations = Math.floor(iterations);
     for (let i = 0; i < iterations; i++) {
       this.axiom = this.applyProductions();
@@ -267,21 +346,13 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
     return this.axiom;
   }
 
+  /**
+   * Get the current axiom of this L-System
+   *
+   * @returns {string}
+   */
   public getAxiomString(): string {
     if (typeof this.axiom === 'string') return this.axiom;
     return this.axiom.reduce((prev, current) => prev + current.symbol, '');
   }
 }
-
-const ALPHABET = ['A', 'B', 'C', 'G'] as const;
-type A = Alphabet<(typeof ALPHABET)[number]>;
-
-new LSystem<A>({
-  alphabet: [...ALPHABET],
-  productions: {
-    A: {
-      successor: 'B',
-      params: ['t']
-    }
-  }
-});
