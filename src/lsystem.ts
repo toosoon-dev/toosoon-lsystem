@@ -35,7 +35,10 @@ export type LSystemParameters<A extends Alphabet, I extends Alphabet = IgnoredAl
 };
 
 /**
+ * LSystem class
+ *
  * @exports
+ * @class LSystem
  */
 export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alphabet = IgnoredAlphabet> {
   readonly alphabet: A;

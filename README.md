@@ -1,8 +1,6 @@
 # TOOSOON L-SYSTEM
 
-TOOSOON L-System library.
-
-This library provides functionalities for creating and manipulating L-Systems (Lindenmayer systems) using various parameters.
+Library providing functionalities for creating and manipulating Lindenmayer systems (L-Systems) using various parameters.
 
 **Credits**: [lindenmayer](https://github.com/nylki/lindenmayer)
 
