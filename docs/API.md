@@ -14,19 +14,19 @@ All the references to API types are described [here](./TYPES.md).
   - [.defines](#defines)
   - [.productions](#productions)
   - [.commands](#commands)
-  - [.setAxiom(axiom)](#set-axiom)
-  - [.setDefine(key, define)](#set-define)
-  - [.setDefines(defines)](#set-defines)
-  - [.clearDefines()](#clear-defines)
-  - [.setProduction(successorParameter, productionParameter)](#set-production)
-  - [.setProductions(productions)](#set-productions)
-  - [.clearProductions()](#clear-productions)
-  - [.setCommand(symbol, command)](#set-command)
-  - [.setCommands(commands)](#set-commands)
-  - [.clearCommands()](#clear-commands)
-  - [.run()](#run)
-  - [.iterate(iterations)](#iterate): `Axiom`
-  - [.getAxiomString()](#get-axiom-string): `string`
+  - [.setAxiom(axiom)](#set-axiom-method)
+  - [.setDefine(key, define)](#set-define-method)
+  - [.setDefines(defines)](#set-defines-method)
+  - [.clearDefines()](#clear-defines-method)
+  - [.setProduction(successorParameter, productionParameter)](#set-production-method)
+  - [.setProductions(productions)](#set-productions-method)
+  - [.clearProductions()](#clear-productions-method)
+  - [.setCommand(symbol, command)](#set-command-method)
+  - [.setCommands(commands)](#set-commands-method)
+  - [.clearCommands()](#clear-commands-method)
+  - [.run()](#run-method)
+  - [.iterate()](#iterate-method): `Axiom`
+  - [.getAxiomString()](#get-axiom-string-method): `string`
 
 ### Constructor
 
@@ -101,7 +101,7 @@ LSystem.commands: Commands;
 
 ### Methods
 
-##### setAxiom(axiom) <a id="set-axiom"></a>
+##### setAxiom(axiom) <a id="set-axiom-method"></a>
 
 Set the axiom of the L-System.
 
@@ -111,7 +111,7 @@ Set the axiom of the L-System.
 LSystem.setAxiom(axiom: AxiomParameter): void;
 ```
 
-##### setDefine(key, define) <a id="set-define"></a>
+##### setDefine(key, define) <a id="set-define-method"></a>
 
 Set a define for the L-System.
 
@@ -122,7 +122,7 @@ Set a define for the L-System.
 LSystem.setDefine(key: DefineKey, define: Define): void;
 ```
 
-##### setDefines(defines) <a id="set-defines"></a>
+##### setDefines(defines) <a id="set-defines-method"></a>
 
 Set multiple defines for the L-System.
 
@@ -132,7 +132,7 @@ Set multiple defines for the L-System.
 LSystem.setDefines(defines: { [key in DefineKey]?: Define }): void;
 ```
 
-##### clearDefines() <a id="clear-defines"></a>
+##### clearDefines() <a id="clear-defines-method"></a>
 
 Clear all defines from the L-System.
 
@@ -140,7 +140,7 @@ Clear all defines from the L-System.
 LSystem.clearDefines(): void;
 ```
 
-##### setProduction(successorParameter, productionParameter) <a id="set-production"></a>
+##### setProduction(successorParameter, productionParameter) <a id="set-production-method"></a>
 
 Set a production for the L-System.
 
@@ -151,7 +151,7 @@ Set a production for the L-System.
 LSystem.setProduction(successorParameter: SuccessorParameter, productionParameter: ProductionParameter): void;
 ```
 
-##### setProductions(productions) <a id="set-productions"></a>
+##### setProductions(productions) <a id="set-productions-method"></a>
 
 Set multiple productions for the L-System.
 
@@ -161,7 +161,7 @@ Set multiple productions for the L-System.
 LSystem.setProductions(productions: { [successorParameter in SuccessorParameter]?: ProductionParameter }): void;
 ```
 
-##### clearProductions() <a id="clear-productions"></a>
+##### clearProductions() <a id="clear-productions-method"></a>
 
 Clear all productions from the L-System.
 
@@ -169,7 +169,7 @@ Clear all productions from the L-System.
 LSystem.clearProductions(): void;
 ```
 
-##### setCommand(symbol, command) <a id="set-command"></a>
+##### setCommand(symbol, command) <a id="set-command-method"></a>
 
 Set a command for the L-System.
 
@@ -180,7 +180,7 @@ Set a command for the L-System.
 LSystem.setCommand(symbol: Symbol, command: Command): void;
 ```
 
-##### setCommands(commands) <a id="set-commands"></a>
+##### setCommands(commands) <a id="set-commands-method"></a>
 
 Set multiple commands for the L-System.
 
@@ -190,7 +190,7 @@ Set multiple commands for the L-System.
 LSystem.setCommands(commands: { [key in CommandKey]?: Command }): void;
 ```
 
-##### clearCommands() <a id="clear-commands"></a>
+##### clearCommands() <a id="clear-commands-method"></a>
 
 Clear all commands from the L-System.
 
@@ -198,7 +198,7 @@ Clear all commands from the L-System.
 LSystem.clearCommands(): void;
 ```
 
-##### run() <a id="run"></a>
+##### run() <a id="run-method"></a>
 
 Execute the commands defined in the L-System.
 
@@ -206,7 +206,7 @@ Execute the commands defined in the L-System.
 LSystem.run(): void;
 ```
 
-##### iterate(iterations) <a id="iterate"></a>
+##### iterate() <a id="iterate-method"></a>
 
 Perform a specified number of iterations on the L-System.
 
@@ -216,7 +216,7 @@ Perform a specified number of iterations on the L-System.
 LSystem.iterate(iterations?: number): Axiom;
 ```
 
-##### getAxiomString() <a id="get-axiom-string"></a>
+##### getAxiomString() <a id="get-axiom-string-method"></a>
 
 Get the current axiom of the L-System.
 
