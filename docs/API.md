@@ -6,7 +6,7 @@ All the references to API types are described [here](./TYPES.md).
 
 ## L-System
 
-- [new LSystem(parameters)](#parameters)
+- [new LSystem(parameters)](#constructor)
   - [.alphabet](#alphabet)
   - [.ignoredSymbols](#ignoredsymbols)
   - [.axiom](#axiom)
@@ -28,7 +28,7 @@ All the references to API types are described [here](./TYPES.md).
   - [.iterate(iterations)](#iterate): `Axiom`
   - [.getAxiomString()](#get-axiom-string): `string`
 
-### Parameters
+### Constructor
 
 | Parameter                   | Type                                                                   | Default           | Description                                                                        |
 | --------------------------- | ---------------------------------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------- |
@@ -48,7 +48,7 @@ All the references to API types are described [here](./TYPES.md).
 Array of symbols supported by the L-System.
 
 ```ts
-system.alphabet: readonly Alphabet;
+LSystem.alphabet: readonly Alphabet;
 ```
 
 ##### ignoredSymbols
@@ -56,7 +56,7 @@ system.alphabet: readonly Alphabet;
 Array of symbols to ignore when performing context sensitive checks. For example, you may want to define `+-` in two-dimensional turtle-graphic L-Systems to be ignored.
 
 ```ts
-system.ignoredSymbols: readonly Alphabet;
+LSystem.ignoredSymbols: readonly Alphabet;
 ```
 
 ##### axiom
@@ -64,7 +64,7 @@ system.ignoredSymbols: readonly Alphabet;
 The initial phrase of your L-System. The axiom can also bet set later via `setAxiom()`.
 
 ```ts
-system.axiom: Axiom;
+LSystem.axiom: Axiom;
 ```
 
 ##### iterations
@@ -72,7 +72,7 @@ system.axiom: Axiom;
 The number of iterations the L-System will perform when calling `iterate()`. It is also possible to set the iterations by passing it as an argument to the method: `iterate([iterations])`.
 
 ```ts
-system.iterations: number;
+LSystem.iterations: number;
 ```
 
 ##### defines
@@ -80,7 +80,7 @@ system.iterations: number;
 Key-value Object to set constant values that will be used by the L-System.
 
 ```ts
-system.defines: Defines;
+LSystem.defines: Defines;
 ```
 
 ##### productions
@@ -88,7 +88,7 @@ system.defines: Defines;
 Key-value Object to set the productions from one symbol to its axiom. Applied when calling `iterate()`.
 
 ```ts
-system.productions: Productions;
+LSystem.productions: Productions;
 ```
 
 ##### commands
@@ -96,7 +96,7 @@ system.productions: Productions;
 Key-value Object to set Functions to be executed for each symbol in sequential order. Useful for visualization. Used when calling `run()`.
 
 ```ts
-system.commands: Commands;
+LSystem.commands: Commands;
 ```
 
 ### Methods
@@ -108,7 +108,7 @@ Set the axiom of the L-System.
 - `axiom`: Initial phrase of the L-System.
 
 ```ts
-system.setAxiom(axiom: AxiomParameter) => void;
+LSystem.setAxiom(axiom: AxiomParameter): void;
 ```
 
 ##### setDefine(key, define) <a id="set-define"></a>
@@ -119,7 +119,7 @@ Set a define for the L-System.
 - `define`: A constant value.
 
 ```ts
-system.setDefine(key: DefineKey, define: Define) => void;
+LSystem.setDefine(key: DefineKey, define: Define): void;
 ```
 
 ##### setDefines(defines) <a id="set-defines"></a>
@@ -129,7 +129,7 @@ Set multiple defines for the L-System.
 - `defines`: Collection of defined constants.
 
 ```ts
-system.setDefines(defines: { [key in DefineKey]?: Define }) => void;
+LSystem.setDefines(defines: { [key in DefineKey]?: Define }): void;
 ```
 
 ##### clearDefines() <a id="clear-defines"></a>
@@ -137,7 +137,7 @@ system.setDefines(defines: { [key in DefineKey]?: Define }) => void;
 Clear all defines from the L-System.
 
 ```ts
-system.clearDefines() => void;
+LSystem.clearDefines(): void;
 ```
 
 ##### setProduction(successorParameter, productionParameter) <a id="set-production"></a>
@@ -148,7 +148,7 @@ Set a production for the L-System.
 - `productionParameter`: Production rule mapped to the symbol.
 
 ```ts
-system.setProduction(successorParameter: SuccessorParameter, productionParameter: ProductionParameter) => void;
+LSystem.setProduction(successorParameter: SuccessorParameter, productionParameter: ProductionParameter): void;
 ```
 
 ##### setProductions(productions) <a id="set-productions"></a>
@@ -158,7 +158,7 @@ Set multiple productions for the L-System.
 - `productions`: Collection of production rules mapped to symbols.
 
 ```ts
-system.setProductions(productions: { [successorParameter in SuccessorParameter]?: ProductionParameter }) => void;
+LSystem.setProductions(productions: { [successorParameter in SuccessorParameter]?: ProductionParameter }): void;
 ```
 
 ##### clearProductions() <a id="clear-productions"></a>
@@ -166,7 +166,7 @@ system.setProductions(productions: { [successorParameter in SuccessorParameter]?
 Clear all productions from the L-System.
 
 ```ts
-system.clearProductions() => void;
+LSystem.clearProductions(): void;
 ```
 
 ##### setCommand(symbol, command) <a id="set-command"></a>
@@ -177,7 +177,7 @@ Set a command for the L-System.
 - `command`: Function to be executed for each corresponding symbol.
 
 ```ts
-system.setCommand(symbol: Symbol, command: Command)  => void;
+LSystem.setCommand(symbol: Symbol, command: Command): void;
 ```
 
 ##### setCommands(commands) <a id="set-commands"></a>
@@ -187,7 +187,7 @@ Set multiple commands for the L-System.
 - `commands`: Collection of commands mapped to symbols.
 
 ```ts
-system.setCommands(commands: { [key in CommandKey]?: Command }) => void;
+LSystem.setCommands(commands: { [key in CommandKey]?: Command }): void;
 ```
 
 ##### clearCommands() <a id="clear-commands"></a>
@@ -195,7 +195,7 @@ system.setCommands(commands: { [key in CommandKey]?: Command }) => void;
 Clear all commands from the L-System.
 
 ```ts
-system.clearCommands() => void;
+LSystem.clearCommands(): void;
 ```
 
 ##### run() <a id="run"></a>
@@ -203,7 +203,7 @@ system.clearCommands() => void;
 Execute the commands defined in the L-System.
 
 ```ts
-system.run() => void;
+LSystem.run(): void;
 ```
 
 ##### iterate(iterations) <a id="iterate"></a>
@@ -213,7 +213,7 @@ Perform a specified number of iterations on the L-System.
 - `[iterations]`: Number of iterations.
 
 ```ts
-system.iterate(iterations?: number) => Axiom;
+LSystem.iterate(iterations?: number): Axiom;
 ```
 
 ##### getAxiomString() <a id="get-axiom-string"></a>
@@ -221,250 +221,5 @@ system.iterate(iterations?: number) => Axiom;
 Get the current axiom of the L-System.
 
 ```ts
-system.getAxiomString() => string;
-```
-
-## Usages
-
-### Basic
-
-```ts
-new LSystem({
-  axiom: 'A',
-  productions: {
-    A: 'A-B',
-    B: 'A+B'
-  }
-});
-```
-
-### Custom Alphabet
-
-Using custom alphabets allows you to use custom strings as symbols.
-
-```ts
-const ALPHABET = ['Block', 'Line'] as const;
-type A = Alphabet<(typeof ALPHABET)[number]>;
-
-new LSystem<A>({
-  alphabet: [...ALPHABET],
-  axiom: 'Block',
-  productions: {
-    Block: 'Block-Line',
-    Line: 'Line++Block--Line'
-  }
-});
-```
-
-### Defines
-
-Defines are especially usefull when coupled with [parametric syntax](#parametric-syntax).
-
-```ts
-new LSystem({
-  defines: {
-    [key]: [value]
-  }
-});
-```
-
-### Productions
-
-You can set productions in two ways.
-
-Multiple productions via constructor:
-
-```ts
-new LSystem({
-  productions: {
-    [symbol]: [production],
-    [symbol]: [production]
-  }
-});
-```
-
-Or via the setter-methods:
-
-```ts
-// Set single production
-system.setProduction([symbol], [production]);
-```
-
-```ts
-// Set multiple productions
-system.setProductions({
-  [symbol]: [production],
-  [symbol]: [production]
-});
-```
-
-#### String-Based Productions
-
-The most basic production consists of a single string, representing the result of a production.
-
-```ts
-// Each 'F' will be replacd with 'FF'
-system.setProduction('F', 'FF');
-```
-
-#### Object-based Productions
-
-To allow even more flexibility than String-based productions, you can choose to use a wrapper Object in the following way to allow for stochastic, context-sensitive and conditional L-Systems. This object basically wraps around a regular Array, String or Function Production, which are now defined in the successor field.
-
-##### String-based successor
-
-Equivalent to String-based productions for Object-based ones.
-
-```ts
-system.setProduction('F', { successor: 'FF' });
-```
-
-##### Array-based successor
-
-If you are reading about L-System in the classic ABOP, you may have stumbled upon parametric L-Systems. Those have optional parameters inside each symbol. To make this possible you can use Arrays of successors besides basic Strings as production results (and axioms).
-
-```ts
-system.setProduction('F', {
-  successor: [
-    { symbol: 'F', params: [1, 2] },
-    { symbol: 'F', params: [3, 4] }
-  ]
-});
-```
-
-##### Context-sensitive production
-
-To add a context-sensitive check you can add `before` and `after` contexts properties.
-
-```ts
-// Replace 'F' with 'FF' only if precceded by 'FA' and followed by 'A'
-system.setProduction('F', {
-  successor: 'FF',
-  context: { before: 'FA', after: 'A' }
-});
-```
-
-See also the chapter on [classic syntax](#context-sensitive-syntax) to learn how to write more concise context sensitive productions.
-
-##### Parametrical production
-
-See the chapter on [classic syntax](#parametric-syntax) to learn how to write concise parametrical productions.
-
-##### Conditional production
-
-You may also define a condition which has to return a boolean.
-
-```ts
-// Replace 'F' with 'FF' only if condition is `true`
-myLsystem.setProduction('F', {
-  successor: 'FF',
-  condition: () => {
-    return condition === true;
-  }
-});
-```
-
-##### Stochastic production
-
-Instead of a single successor, a stochastic L-System defines an Array which includes multiple Objects with their own successor. The weight property defines the probability of each successor to be choosen. If all successors have the same weight they have an equal chance to get choosen. If one successor has a higher weight than another, it is more likely to get choosen.
-
-```ts
-system.setProduction('F', {
-  stochastic: [
-    { successor: 'A', weight: 50 }, // 50% probability
-    { successor: 'AB', weight: 25 }, // 25% probability
-    { successor: 'A+B', weight: 25 } // 25% probability
-  ]
-});
-```
-
-In order to create pseudo-randomness, [toosoon-prng](https://github.com/toosoon-dev/toosoon-prng) is used to determine stochastic outputs.
-
-##### Function-based successor
-
-Besides Strings and Arrays, you can also define functions as successors for complete flexibilty. Each successor function has also access to an info object:
-
-- `axiom`: Reference to the current axiom. Useful in combination with index.
-- `index`: The current index of the symbol inside the whole axiom.
-- `part`: The current symbol part. Not very useful for String based L-Systems. But for Array based ones, this lets you access the whole symbol object, including any custom parameters you added.
-- `params`: Shorthand for `part.params`.
-
-A successor function returns a valid production result. If nothing or `false` is returned, the symbol will not replaced.
-
-Usages examples:
-
-```ts
-// Replace 'F' with 'A' if it is at least at index 3 (4th position) inside the current axiom, otherwise return 'B'
-system.setAxiom('FFFFFFF');
-system.setProduction('F', {
-  successor: ({ index }) => (index >= 3 ? 'A' : 'B')
-});
-system.iterate(); // 'FFFFFF' results in -> 'BBBAAAA'
-
-// Replace any occurrence of 'F' with a random amount (but max. 5) of 'F'
-system.setProduction('F', {
-  successor: () => {
-    let result = '';
-    let n = Math.ceil(Math.random() * 5);
-    for (let i = 0; i < n; i++) result += 'F';
-    return result;
-  }
-});
-
-// Replace 'F' with 'FM' on mondays and with 'FT' on tuesdays. Otherwise nothing is returned, therefore 'F' stays 'F'
-system.setProduction('F', {
-  successor: () => {
-    const day = new Date().getDay();
-    if (day === 1) return 'FM';
-    if (day === 2) return 'FT';
-  }
-});
-```
-
-#### Apply Productions
-
-To apply your productions onto the axiom you call `iterate()` on your L-System instance.
-
-In each iteration step, all symbols of the axiom are replaced with new symbols based on your defined productions.
-
-When you call `iterate()`, the resulted axiom of your L-System is returned. You can also get the resulted axiom via `getAxiomString()`.
-
-### Commands
-
-To visualize or post-process your L-System you can define commands functions for each symbol. These functions are similar to productions, but instead of replacing the existing axiom, commands are used to draw for example different lines for different symbols. All commands are executed by calling `run()`.
-
-A very common application for commands would be the creation of turtle graphics.
-
-### Classic Syntax
-
-#### Context-sensitive syntax
-
-```ts
-// Instead of:
-system.setProduction('F', {
-  successor: 'G',
-  context: { before: 'AB', after: 'C' }
-});
-
-// You can write:
-system.setProduction('AB<F>C', 'G');
-```
-
-#### Parametric syntax
-
-```ts
-// Instead of:
-system.setProduction('F', {
-  successor: [
-    { symbol: 'A', params: [1] },
-    { symbol: 'B', params: [2, 1] }
-  ]
-});
-
-// You can write:
-system.setProduction('F', 'A(1) B(2, 1)');
-
-// Then use parametrical productions:
-system.setProduction('A(t)', 'B(t, t + 1)');
-system.setProduction('B(t, d)', 'A(t * d)');
+LSystem.getAxiomString(): string;
 ```
