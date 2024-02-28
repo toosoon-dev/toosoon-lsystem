@@ -1,6 +1,6 @@
 {
   "name": "toosoon-lsystem",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Library providing functionalities for creating and manipulating Lindenmayer systems (L-Systems) using various parameters",
   "main": "./lib/index.js",
   "scripts": {
@@ -14,7 +14,8 @@
   "keywords": [
     "toosoon",
     "lsystem",
-    "l-system"
+    "l-system",
+    "lindenmayer"
   ],
   "author": "Arnaud Rocca",
   "license": "MIT",
