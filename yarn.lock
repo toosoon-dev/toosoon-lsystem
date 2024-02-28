@@ -2,24 +2,24 @@
 # yarn lockfile v1
 
 
-toosoon-gui@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/toosoon-gui/-/toosoon-gui-1.0.6.tgz#901c457420fcfae874873a64554dffa2db13ece1"
-  integrity sha512-1njn8DNLs2KkhtGl9pxYkyRX56GdOzzX8F5Jm12O8wz1ueRODDDawVyuo4EUhFyisHnBiKLVMNkLdqR5JYWifQ==
+toosoon-gui@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/toosoon-gui/-/toosoon-gui-1.2.1.tgz#f34fba13238e2daa6b3a5aa7c9b729adfd4a2a7d"
+  integrity sha512-1yGcyiraJVZNx9mfBjQQemQ6PdjobeJoihFOrb6va+bHLxHz0QtnynsLvsbWJZ56Wr0mx985QuLOO+QQ+kDfow==
   dependencies:
-    toosoon-utils "^1.1.0"
+    toosoon-utils "^1.2.0"
 
-toosoon-prng@^1.2.0:
+toosoon-prng@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/toosoon-prng/-/toosoon-prng-1.2.1.tgz#ad24cc08280e107b72fe8e8d5f38d3711aee3851"
+  integrity sha512-RmLvPavUjGh/yUV5j1vlgs1qSF1DjrbduQecFbKAwXbK2aPkZBCEXz5mHOnEDpzkljZI3qMqv8mTnHWp/ntzMQ==
+  dependencies:
+    toosoon-gui "^1.2.1"
+
+toosoon-utils@^1.2.0:
   version "1.2.0"
-  resolved "https://registry.yarnpkg.com/toosoon-prng/-/toosoon-prng-1.2.0.tgz#93ea7b3c753b64b7b9061ed4bfb1e71447084f1d"
-  integrity sha512-sJsc3Nkpbi+ohoBow/8VvftVG/M27ZkkhZsgl+l5vsQQRGGwiyeFBvcR0uyJgmSuRBK4c8jeshpGr3zsCaLGnw==
-  dependencies:
-    toosoon-gui "^1.0.6"
-
-toosoon-utils@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/toosoon-utils/-/toosoon-utils-1.1.0.tgz#64d3358aa00ba2ac4a75f6adce3d5801632eef9c"
-  integrity sha512-LZDB/ugb75CmHvfB34npI+9wY8gSdQRDAV7vodvDZVC3a+xWFu/S9NcIGHf2R78Pj0PqmbhIVBEuxCHQJQLMUQ==
+  resolved "https://registry.yarnpkg.com/toosoon-utils/-/toosoon-utils-1.2.0.tgz#de8951a607bd479c880f2126296cb606a7f0ddd1"
+  integrity sha512-cpHDIs7Q4J4XAQqS9CpnRjQ8Q08Akf8qJqe29rxiFslCdBhsnZ6zn+W44UwS4BPdkMXXU/TcTbV6G8fRC3vrTg==
 
 typescript@^5.3.3:
   version "5.3.3"

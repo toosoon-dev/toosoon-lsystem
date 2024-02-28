@@ -1,7 +1,7 @@
 {
   "name": "toosoon-lsystem",
-  "version": "1.2.0",
-  "description": "L-System library",
+  "version": "1.2.1",
+  "description": "Library providing functionalities for creating and manipulating Lindenmayer systems (L-Systems) using various parameters",
   "main": "./lib/index.js",
   "scripts": {
     "build": "npx tsc",
@@ -26,6 +26,6 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "toosoon-prng": "^1.2.0"
+    "toosoon-prng": "^1.2.1"
   }
 }
