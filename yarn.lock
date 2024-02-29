@@ -2,19 +2,19 @@
 # yarn lockfile v1
 
 
-toosoon-gui@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/toosoon-gui/-/toosoon-gui-1.2.1.tgz#f34fba13238e2daa6b3a5aa7c9b729adfd4a2a7d"
-  integrity sha512-1yGcyiraJVZNx9mfBjQQemQ6PdjobeJoihFOrb6va+bHLxHz0QtnynsLvsbWJZ56Wr0mx985QuLOO+QQ+kDfow==
+toosoon-gui@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/toosoon-gui/-/toosoon-gui-1.3.0.tgz#522e07271f29b18ea76097d42267acfec50aecfb"
+  integrity sha512-sRLh964Nyq6cNT27kuFPgHR+Zk8QqaD8gOHtRAkKZ2rdkDcHQMRvst0FZnVJhxpZIAvvzTL609L8JmOwcnwefQ==
   dependencies:
     toosoon-utils "^1.2.0"
 
-toosoon-prng@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/toosoon-prng/-/toosoon-prng-1.2.1.tgz#ad24cc08280e107b72fe8e8d5f38d3711aee3851"
-  integrity sha512-RmLvPavUjGh/yUV5j1vlgs1qSF1DjrbduQecFbKAwXbK2aPkZBCEXz5mHOnEDpzkljZI3qMqv8mTnHWp/ntzMQ==
+toosoon-prng@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/toosoon-prng/-/toosoon-prng-1.3.0.tgz#76e8394a2753829285026710a19cd4dc405af305"
+  integrity sha512-9W7S6QG7VPk07FwPdXQXagnXuBulxKlw2uWvZRGy6Z5OykSoevovAly2YXS+7DOFtimpZZOA6UUuTLm8TifU6w==
   dependencies:
-    toosoon-gui "^1.2.1"
+    toosoon-gui "^1.3.0"
 
 toosoon-utils@^1.2.0:
   version "1.2.0"
