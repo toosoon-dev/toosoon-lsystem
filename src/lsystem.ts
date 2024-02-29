@@ -1,5 +1,3 @@
-import prng from 'toosoon-prng';
-
 import { DEFAULT_SYMBOLS, IGNORED_SYMBOLS } from './constants';
 import { normalizeAxiom, normalizeProduction, transformParamsToDefines, transformPhraseToAxiom } from './transformers';
 import {
@@ -22,7 +20,7 @@ import {
   SuccessorParameter,
   Symbol
 } from './types';
-import { matchContext } from './utils';
+import { matchContext, pseudoRandomIndex } from './utils';
 
 export type LSystemParameters<A extends Alphabet, I extends Alphabet = IgnoredAlphabet> = {
   readonly alphabet: A;
@@ -223,8 +221,8 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
     } else if (production.stochastic) {
       // For stochastic productions pick a successor from the list according to their weight
       const seed = `${part.symbol}-${index}`;
-      const weights = production.stochastic.map((item) => item.weight as number);
-      const item = production.stochastic[prng.randomIndex(seed, weights)];
+      const weights = production.stochastic.map((item) => item.weight);
+      const item = production.stochastic[pseudoRandomIndex(seed, weights)];
       result = this.getProductionResult({ successor: item.successor }, part, index);
     } else if (typeof production.successor === 'string') {
       // If parameter is a Phrase, transform and merge it into new axiom
