@@ -1,5 +1,7 @@
 import { DEFAULT_SYMBOLS, IGNORED_SYMBOLS } from './constants';
 
+export type { LSystemParameters } from './lsystem';
+
 // *********************
 // Alphabets
 // *********************
