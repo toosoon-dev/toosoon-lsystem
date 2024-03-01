@@ -25,13 +25,13 @@ import {
 import { matchContext } from './utils';
 
 export type LSystemParameters<A extends Alphabet, I extends Alphabet = IgnoredAlphabet> = {
-  readonly alphabet: A;
+  readonly alphabet?: A;
   readonly ignoredSymbols?: I;
   axiom?: AxiomParameter<A | I>;
   iterations?: number;
-  defines?: Record<DefineKey, Define>;
-  productions?: Record<SuccessorParameter<A>, ProductionParameter<A, I>>;
-  commands?: Record<CommandKey<A, I>, Command<A, I>>;
+  defines?: { [key in DefineKey]?: Define };
+  productions?: { [successorParameter in SuccessorParameter<A>]?: ProductionParameter<A, I> };
+  commands?: { [key in CommandKey<A, I>]?: Command<A, I> };
 };
 
 /**
@@ -93,7 +93,7 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
    *
    * @param {object} defines Collection of defined constants
    */
-  public setDefines(defines: Record<DefineKey, Define>): void {
+  public setDefines(defines: { [key in DefineKey]?: Define }): void {
     this.clearDefines();
     Object.entries(defines).forEach(([key, define]) => this.setDefine(key as DefineKey, define as Define));
   }
@@ -305,7 +305,7 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
    *
    * @param {object} commands Collection of commands mapped to symbols
    */
-  public setCommands(commands: Record<CommandKey<A, I>, Command<A, I>>): void {
+  public setCommands(commands: { [key in CommandKey<A, I>]?: Command<A, I> }): void {
     this.clearCommands();
     Object.entries(commands).forEach(([key, command]) =>
       this.setCommand(key as CommandKey<A, I>, command as Command<A, I>)
