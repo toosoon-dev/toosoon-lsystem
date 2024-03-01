@@ -30,16 +30,16 @@ All the references to API types are described [here](./TYPES.md).
 
 ### Constructor
 
-| Parameter                   | Type                                                                   | Default           | Description                                                                        |
-| --------------------------- | ---------------------------------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------- |
-| parameters                  | `LSystemParameters`                                                    |                   |                                                                                    |
-| [parameters.alphabet]       | `Alphabet`                                                             | `DefaultAlphabet` | Represent the set of symbols used in an L-System.                                  |
-| [parameters.ignoredSymbols] | `Alphabet`                                                             | `IgnoredAlphabet` | Represent the set of symbols to be ignored by the L-System.                        |
-| [parameters.axiom]          | `Axiom`                                                                | `[]`              | The initial phrase of the L-System.                                                |
-| [parameters.iterations]     | `number`                                                               | `1`               | The number of iterations to perform.                                               |
-| [parameters.defines]        | `{ [key in DefineKey]?: Define }`                                      |                   | Key-value Object to set constant values that will be used by the L-System.         |
-| [parameters.productions]    | `{ [successorParameter in SuccessorParameter]?: ProductionParameter }` |                   | Key-value Object to set the productions from one symbol to its axiom.              |
-| [parameters.commands]       | `{ [key in CommandKey]?: Command }`                                    |                   | Key-value Object to set Functions be executed for each symbol in sequential order. |
+| Parameter                   | Type                                              | Default           | Description                                                                        |
+| --------------------------- | ------------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------- |
+| parameters                  | `LSystemParameters`                               |                   |                                                                                    |
+| [parameters.alphabet]       | `Alphabet`                                        | `DefaultAlphabet` | Represent the set of symbols used in an L-System.                                  |
+| [parameters.ignoredSymbols] | `Alphabet`                                        | `IgnoredAlphabet` | Represent the set of symbols to be ignored by the L-System.                        |
+| [parameters.axiom]          | `Axiom`                                           | `[]`              | The initial phrase of the L-System.                                                |
+| [parameters.iterations]     | `number`                                          | `1`               | The number of iterations to perform.                                               |
+| [parameters.defines]        | `Record<DefineKey, Define>`                       |                   | Key-value Object to set constant values that will be used by the L-System.         |
+| [parameters.productions]    | `Record<SuccessorParameter, ProductionParameter>` |                   | Key-value Object to set the productions from one symbol to its axiom.              |
+| [parameters.commands]       | `Record<CommandKey, Command>`                     |                   | Key-value Object to set Functions be executed for each symbol in sequential order. |
 
 ### Properties
 
@@ -129,7 +129,7 @@ Set multiple defines for the L-System.
 - `defines`: Collection of defined constants.
 
 ```ts
-LSystem.setDefines(defines: { [key in DefineKey]?: Define }): void;
+LSystem.setDefines(defines: Record<DefineKey, Define>): void;
 ```
 
 ##### clearDefines() <a id="clear-defines-method"></a>
@@ -158,7 +158,7 @@ Set multiple productions for the L-System.
 - `productions`: Collection of production rules mapped to symbols.
 
 ```ts
-LSystem.setProductions(productions: { [successorParameter in SuccessorParameter]?: ProductionParameter }): void;
+LSystem.setProductions(productions: Record<SuccessorParameter, ProductionParameter>): void;
 ```
 
 ##### clearProductions() <a id="clear-productions-method"></a>
@@ -187,7 +187,7 @@ Set multiple commands for the L-System.
 - `commands`: Collection of commands mapped to symbols.
 
 ```ts
-LSystem.setCommands(commands: { [key in CommandKey]?: Command }): void;
+LSystem.setCommands(commands: Record<CommandKey, Command>): void;
 ```
 
 ##### clearCommands() <a id="clear-commands-method"></a>
