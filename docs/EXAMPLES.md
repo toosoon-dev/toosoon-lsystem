@@ -53,7 +53,7 @@ type TurtleParameters = {
   xAxis?: Vector3;
   yAxis?: Vector3;
   zAxis?: Vector3;
-  attributes?: { [key: string]: number | string };
+  attributes?: Record<string, number | string>;
 };
 
 class Turtle {
@@ -61,7 +61,7 @@ class Turtle {
   xAxis: Vector3;
   yAxis: Vector3;
   zAxis: Vector3;
-  attributes: { [key: string]: number | string };
+  attributes: Record<string, number | string>;
 
   constructor({
     position = new Vector3(0, 0, 0),

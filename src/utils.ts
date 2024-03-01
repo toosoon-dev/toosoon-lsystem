@@ -1,5 +1,3 @@
-import { cyrb128, splitmix32 } from 'toosoon-utils/prng';
-
 import { BRANCH_SYMBOLS } from './constants';
 import { transformPhraseToAxiom } from './transformers';
 import { Alphabet, Axiom, ContextParameter, Defines } from './types';
@@ -106,33 +104,4 @@ export function matchContext<A extends Alphabet, I extends Alphabet>({
   }
 
   return false;
-}
-
-/**
- * Select a pseudo-random index from an array of weighted items
- *
- * @param {string} seed
- * @param {number[]} weights Array of weights
- * @returns {number} Random index based on weights
- */
-export function pseudoRandomIndex(seed: string, weights: number[]): number {
-  if (weights.length === 0) return -1;
-
-  let totalWeight = 0;
-  for (let weight of weights) {
-    totalWeight += weight;
-  }
-
-  if (totalWeight <= 0) {
-    console.warn('pseudoRandomIndex()', 'Weights must sum to > 0', totalWeight);
-  }
-
-  const hashes = cyrb128(seed);
-  let random = splitmix32(hashes[0]) * totalWeight;
-  for (let i = 0; i < weights.length; i++) {
-    if (random < weights[i]) return i;
-    random -= weights[i];
-  }
-
-  return 0;
 }
