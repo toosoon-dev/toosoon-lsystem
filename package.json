@@ -1,7 +1,11 @@
 {
   "name": "toosoon-lsystem",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "Library providing functionalities for creating and manipulating Lindenmayer systems (L-Systems) using various parameters",
+  "type": "module",
+  "engines": {
+    "node": ">=16"
+  },
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
@@ -28,6 +32,6 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "toosoon-utils": "^1.5.0"
+    "toosoon-utils": "^2.0.0"
   }
 }
