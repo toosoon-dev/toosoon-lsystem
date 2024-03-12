@@ -1,6 +1,6 @@
 {
   "name": "toosoon-lsystem",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Library providing functionalities for creating and manipulating Lindenmayer systems (L-Systems) using various parameters",
   "type": "module",
   "engines": {
@@ -29,9 +29,9 @@
   },
   "homepage": "https://github.com/toosoon-dev/toosoon-lsystem#readme",
   "dependencies": {
-    "toosoon-utils": "^2.1.0"
+    "toosoon-utils": "^2.2.0"
   },
-  "peerDependencies": {
-    "typescript": "5.x"
+  "devDependencies": {
+    "typescript": "^5.4.2"
   }
 }
