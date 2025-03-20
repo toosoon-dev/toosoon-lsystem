@@ -1,8 +1,9 @@
 import { randomIndex } from 'toosoon-utils/prng';
 
 import { DEFAULT_SYMBOLS, IGNORED_SYMBOLS } from './constants';
+import { matchContext } from './utils';
 import { normalizeAxiom, normalizeProduction, transformParamsToDefines, transformPhraseToAxiom } from './transformers';
-import {
+import type {
   Alphabet,
   Axiom,
   AxiomParameter,
@@ -22,7 +23,6 @@ import {
   SuccessorParameter,
   Symbol
 } from './types';
-import { matchContext } from './utils';
 
 export type LSystemParameters<A extends Alphabet, I extends Alphabet = IgnoredAlphabet> = {
   readonly alphabet?: A;

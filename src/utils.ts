@@ -1,6 +1,6 @@
 import { BRANCH_SYMBOLS } from './constants';
 import { transformPhraseToAxiom } from './transformers';
-import { Alphabet, Axiom, ContextParameter, Defines } from './types';
+import type { Alphabet, Axiom, ContextParameter, Defines } from './types';
 
 /**
  * Check if a symbol matches a context

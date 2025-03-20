@@ -1,5 +1,5 @@
 export { BRANCH_SYMBOLS, PARAMETRIC_SYMBOLS, IGNORED_SYMBOLS } from './constants';
 
-export { default } from './lsystem';
+export { default, default as LSystem } from './lsystem';
 
 export type * from './types';

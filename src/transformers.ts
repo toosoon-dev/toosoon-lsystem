@@ -1,5 +1,5 @@
 import { PARAMETRIC_SYMBOLS } from './constants';
-import {
+import type {
   Alphabet,
   Axiom,
   AxiomParameter,
