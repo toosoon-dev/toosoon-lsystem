@@ -4,6 +4,8 @@ Library providing functionalities for creating and manipulating Lindenmayer syst
 
 **Credits**: [lindenmayer](https://github.com/nylki/lindenmayer)
 
+[![NPM](https://nodei.co/npm/toosoon-lsystem.png)](https://nodei.co/npm/toosoon-lsystem/)
+
 ## Installation
 
 Yarn:
