@@ -1,6 +1,6 @@
 {
   "name": "toosoon-lsystem",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Library providing functionalities for creating and manipulating Lindenmayer systems (L-Systems) using various parameters",
   "type": "module",
   "engines": {
