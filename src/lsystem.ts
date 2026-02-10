@@ -1,4 +1,4 @@
-import { randomIndex } from 'toosoon-utils/prng';
+import { PRNG, type Seed, type Generator } from 'toosoon-prng';
 
 import { DEFAULT_SYMBOLS, IGNORED_SYMBOLS } from './constants';
 import { matchContext } from './utils';
@@ -25,13 +25,42 @@ import type {
 } from './types';
 
 export type LSystemParameters<A extends Alphabet, I extends Alphabet = IgnoredAlphabet> = {
+  /**
+   * Represent the set of symbols used in an L-System
+   */
   readonly alphabet?: A;
+  /**
+   * Represent the set of symbols to be ignored by the L-System
+   */
   readonly ignoredSymbols?: I;
+  /**
+   * The initial phrase of the L-System
+   */
   axiom?: AxiomParameter<A | I>;
+  /**
+   * The number of iterations to perform
+   */
   iterations?: number;
+  /**
+   * Key-value Object to set constant values that will be used by the L-System
+   */
   defines?: { [key in DefineKey]?: Define };
+  /**
+   * Key-value Object to set the productions from one symbol to its axiom
+   */
   productions?: { [successorParameter in SuccessorParameter<A>]?: ProductionParameter<A, I> };
+  /**
+   * Key-value Object to set Functions be executed for each symbol in sequential order
+   */
   commands?: { [key in CommandKey<A, I>]?: Command<A, I> };
+  /**
+   * Seed string used for pseudo-random number generation in stochastic productions
+   */
+  seed?: Seed;
+  /**
+   * Generator function used for pseudo-random number generations in stochastic productions
+   */
+  generator?: Generator;
 };
 
 /**
@@ -39,16 +68,23 @@ export type LSystemParameters<A extends Alphabet, I extends Alphabet = IgnoredAl
  *
  * @exports
  * @class LSystem
+ * @template {Alphabet} [A=DefaultAlphabet]
+ * @template {Alphabet} [I=IgnoredAlphabet]
  */
 export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alphabet = IgnoredAlphabet> {
-  readonly alphabet: A;
-  readonly ignoredSymbols: I;
-  axiom: Axiom<A | I> = [];
-  iterations: number;
-  defines: Defines = new Map();
-  productions: Productions<A, I> = new Map();
-  commands: Commands<A, I> = new Map();
+  public readonly alphabet: A;
+  public readonly ignoredSymbols: I;
+  public axiom: Axiom<A | I> = [];
+  public iterations: number;
+  public readonly defines: Defines = new Map();
+  public readonly productions: Productions<A, I> = new Map();
+  public readonly commands: Commands<A, I> = new Map();
 
+  private readonly _prng: PRNG;
+
+  /**
+   * @param {LSystemParameters<A,I>} params
+   */
   constructor({
     alphabet = [...DEFAULT_SYMBOLS] as A,
     ignoredSymbols = [...IGNORED_SYMBOLS] as I,
@@ -56,7 +92,9 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
     iterations = 1,
     defines,
     productions,
-    commands
+    commands,
+    seed,
+    generator
   }: LSystemParameters<A, I>) {
     this.alphabet = alphabet;
     this.ignoredSymbols = ignoredSymbols;
@@ -67,12 +105,14 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
     if (defines) this.setDefines(defines);
     if (productions) this.setProductions(productions);
     if (commands) this.setCommands(commands);
+
+    this._prng = new PRNG(seed, generator);
   }
 
   /**
    * Set the axiom of the L-System
    *
-   * @param {AxiomParameter} axiom Initial phrase of this L-System
+   * @param {AxiomParameter<A|I>} axiom Initial phrase of this L-System
    */
   public setAxiom(axiom: AxiomParameter<A | I>): void {
     this.axiom = normalizeAxiom<A, I>(axiom, this.alphabet, this.ignoredSymbols, this.defines);
@@ -102,14 +142,14 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
    * Clear all defines from this L-System
    */
   public clearDefines(): void {
-    this.defines = new Map();
+    this.defines.clear();
   }
 
   /**
    * Set a production for the L-System.
    *
-   * @param {SuccessorParameter} successorParameter   Successor symbol mapped to the production
-   * @param {ProductionParameter} productionParameter Production rule mapped to the symbol
+   * @param {SuccessorParameter<A>} successorParameter Successor symbol mapped to the production
+   * @param {ProductionParameter<A,I>} productionParameter Production rule mapped to the symbol
    */
   public setProduction(
     successorParameter: SuccessorParameter<A>,
@@ -153,19 +193,19 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
    * Clear all productions from the L-System
    */
   public clearProductions(): void {
-    this.productions = new Map();
+    this.productions.clear();
   }
 
   /**
    * Return the result of a production rule
    *
-   * @param {Production} production
-   * @param {AxiomPart} part
+   * @param {Production<A,I>} production
+   * @param {AxiomPart<A|I>} part
    * @param {number} index
    * @param {boolean} [recursive=false]
-   * @returns {ProductionResult}
+   * @returns {ProductionResult<A|I>}
    */
-  protected getProductionResult(
+  private _getProductionResult(
     production: Production<A, I>,
     part: AxiomPart<A | I>,
     index: number,
@@ -222,10 +262,10 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
       result = false;
     } else if (production.stochastic) {
       // For stochastic productions pick a successor from the list according to their weight
-      const seed = `${part.symbol}-${index}`;
+      const subseed = `${part.symbol}${index}`;
       const weights = production.stochastic.map((item) => item.weight);
-      const item = production.stochastic[randomIndex(seed, weights)];
-      result = this.getProductionResult({ successor: item.successor }, part, index);
+      const item = production.stochastic[this._prng.randomIndex(subseed, weights)];
+      result = this._getProductionResult({ successor: item.successor }, part, index);
     } else if (typeof production.successor === 'string') {
       // If parameter is a Phrase, transform and merge it into new axiom
       // Merge production params (from classic parametric syntax) to global defines
@@ -253,9 +293,9 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
    * Apply productions rules on current axiom.
    * It corresponds to 1 iteration of this L-System.
    *
-   * @returns {Axiom}
+   * @returns {Axiom<A|I>}
    */
-  protected applyProductions(): Axiom<A | I> {
+  private _applyProductions(): Axiom<A | I> {
     let axiom: Axiom<A | I> = [];
     let index = 0;
 
@@ -269,7 +309,7 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
         if (production instanceof Array) {
           // If symbol has multiple productions associated, set first valid result
           for (let productionItem of production) {
-            let result = this.getProductionResult(productionItem, part, index, true);
+            let result = this._getProductionResult(productionItem, part, index, true);
             if (result) {
               productionResult = result;
               break;
@@ -277,7 +317,7 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
           }
         } else {
           // If symbol has only one production associated, set result
-          productionResult = this.getProductionResult(production, part, index);
+          productionResult = this._getProductionResult(production, part, index);
         }
       }
 
@@ -293,8 +333,8 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
   /**
    * Set a command for this L-System
    *
-   * @param {Symbol} symbol   Symbol used as a key for the command
-   * @param {Command} command Function to be executed for each corresponding symbol
+   * @param {Symbol<A|I>} symbol Symbol used as a key for the command
+   * @param {Command<A,I>} command Function to be executed for each corresponding symbol
    */
   public setCommand(symbol: Symbol<A | I>, command: Command<A, I>): void {
     this.commands.set(symbol, command);
@@ -316,7 +356,7 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
    * Clear all commands from this L-System
    */
   public clearCommands(): void {
-    this.commands = new Map();
+    this.commands.clear();
   }
 
   /**
@@ -339,12 +379,12 @@ export default class LSystem<A extends Alphabet = DefaultAlphabet, I extends Alp
    * Perform a specified number of iterations on this L-System
    *
    * @param {number} [iterations] Number of iterations
-   * @returns {Axiom}
+   * @returns {Axiom<A|I>}
    */
   public iterate(iterations: number = this.iterations): Axiom<A | I> {
     this.iterations = Math.floor(iterations);
     for (let i = 0; i < iterations; i++) {
-      this.axiom = this.applyProductions();
+      this.axiom = this._applyProductions();
     }
     return this.axiom;
   }

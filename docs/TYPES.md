@@ -21,7 +21,7 @@ type Symbol = Alphabet[number];
 `Symbols`: Represent an array of symbols.
 
 ```ts
-type Symbols = Array<Symbol>;
+type Symbols = Symbol[];
 ```
 
 ## Axiom
@@ -31,7 +31,7 @@ type Symbols = Array<Symbol>;
 `Axiom`: Represent an array of axiom parts.
 
 ```ts
-type Axiom = Array<AxiomPart>;
+type Axiom = AxiomPart[];
 ```
 
 `AxiomPart`: Represent a single part of the axiom, consisting of a symbol and optional parameters.

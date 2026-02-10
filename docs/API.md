@@ -4,46 +4,47 @@
 
 All the references to API types are described [here](./TYPES.md).
 
-## L-System
+## L-System <a id="l-system"></a>
 
-- [new LSystem(parameters)](#constructor)
-  - [.alphabet](#alphabet)
-  - [.ignoredSymbols](#ignoredsymbols)
-  - [.axiom](#axiom)
-  - [.iterations](#iterations)
-  - [.defines](#defines)
-  - [.productions](#productions)
-  - [.commands](#commands)
-  - [.setAxiom(axiom)](#set-axiom-method)
-  - [.setDefine(key, define)](#set-define-method)
-  - [.setDefines(defines)](#set-defines-method)
-  - [.clearDefines()](#clear-defines-method)
-  - [.setProduction(successorParameter, productionParameter)](#set-production-method)
-  - [.setProductions(productions)](#set-productions-method)
-  - [.clearProductions()](#clear-productions-method)
-  - [.setCommand(symbol, command)](#set-command-method)
-  - [.setCommands(commands)](#set-commands-method)
-  - [.clearCommands()](#clear-commands-method)
-  - [.run()](#run-method)
-  - [.iterate()](#iterate-method): `Axiom`
-  - [.getAxiomString()](#get-axiom-string-method): `string`
+- [new LSystem(params)](#l-system-constructor)
+  - [.alphabet](#l-system-alphabet): `readonly Alphabet`
+  - [.ignoredSymbols](#l-system-ignored-symbols): `readonly Alphabet`
+  - [.axiom](#l-system-axiom): `Axiom`
+  - [.iterations](#l-system-iterations): `number`
+  - [.defines](#l-system-defines): `readonly Map`
+  - [.productions](#l-system-productions): `readonly Map`
+  - [.commands](#l-system-commands): `readonly Map`
+  - [.setAxiom(axiom)](#l-system-set-axiom-method): `void`
+  - [.setDefine(key, define)](#l-system-set-define-method): `void`
+  - [.setDefines(defines)](#l-system-set-defines-method): `void`
+  - [.clearDefines()](#l-system-clear-defines-method): `void`
+  - [.setProduction(successorParameter, productionParameter)](#l-system-set-production-method): `void`
+  - [.setProductions(productions)](#l-system-set-productions-method): `void`
+  - [.clearProductions()](#l-system-clear-productions-method): `void`
+  - [.setCommand(symbol, command)](#l-system-set-command-method): `void`
+  - [.setCommands(commands)](#l-system-set-commands-method): `void`
+  - [.clearCommands()](#l-system-clear-commands-method): `void`
+  - [.run()](#l-system-run-method): `void`
+  - [.iterate(iterations?)](#l-system-iterate-method): `Axiom`
+  - [.getAxiomString()](#l-system-get-axiom-string-method): `string`
 
-### Constructor
+### Constructor <a id="l-system-constructor"></a>
 
-| Parameter                   | Type                                                                   | Default           | Description                                                                        |
-| --------------------------- | ---------------------------------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------- |
-| parameters                  | `LSystemParameters`                                                    |                   |                                                                                    |
-| [parameters.alphabet]       | `Alphabet`                                                             | `DefaultAlphabet` | Represent the set of symbols used in an L-System.                                  |
-| [parameters.ignoredSymbols] | `Alphabet`                                                             | `IgnoredAlphabet` | Represent the set of symbols to be ignored by the L-System.                        |
-| [parameters.axiom]          | `Axiom`                                                                | `[]`              | The initial phrase of the L-System.                                                |
-| [parameters.iterations]     | `number`                                                               | `1`               | The number of iterations to perform.                                               |
-| [parameters.defines]        | `{ [key in DefineKey]?: Define }`                                      |                   | Key-value Object to set constant values that will be used by the L-System.         |
-| [parameters.productions]    | `{ [successorParameter in SuccessorParameter]?: ProductionParameter }` |                   | Key-value Object to set the productions from one symbol to its axiom.              |
-| [parameters.commands]       | `{ [key in CommandKey]?: Command }`                                    |                   | Key-value Object to set Functions be executed for each symbol in sequential order. |
+| Parameter               | Type                                                                   | Default           | Description                                                                             |
+| ----------------------- | ---------------------------------------------------------------------- | ----------------- | --------------------------------------------------------------------------------------- |
+| params                  | `LSystemParameters`                                                    |                   |                                                                                         |
+| [params.alphabet]       | `Alphabet`                                                             | `DefaultAlphabet` | Represent the set of symbols used in an L-System.                                       |
+| [params.ignoredSymbols] | `Alphabet`                                                             | `IgnoredAlphabet` | Represent the set of symbols to be ignored by the L-System.                             |
+| [params.axiom]          | `Axiom`                                                                | `[]`              | The initial phrase of the L-System.                                                     |
+| [params.iterations]     | `number`                                                               | `1`               | The number of iterations to perform.                                                    |
+| [params.defines]        | `{ [key in DefineKey]?: Define }`                                      |                   | Key-value Object to set constant values that will be used by the L-System.              |
+| [params.productions]    | `{ [successorParameter in SuccessorParameter]?: ProductionParameter }` |                   | Key-value Object to set the productions from one symbol to its axiom.                   |
+| [params.seed]           | `string \| number`                                                     |                   | Seed string used for pseudo-random number generation in stochastic productions.         |
+| [params.generator]      | `(...hashes: number[]) => number`                                      |                   | Generator function used for pseudo-random number generations in stochastic productions. |
 
 ### Properties
 
-##### alphabet
+##### .`alphabet` <a id="l-system-alphabet"></a>
 
 Array of symbols supported by the L-System.
 
@@ -51,7 +52,7 @@ Array of symbols supported by the L-System.
 LSystem.alphabet: readonly Alphabet;
 ```
 
-##### ignoredSymbols
+##### .`ignoredSymbols` <a id="l-system-ignored-symbols"></a>
 
 Array of symbols to ignore when performing context sensitive checks. For example, you may want to define `+-` in two-dimensional turtle-graphic L-Systems to be ignored.
 
@@ -59,7 +60,7 @@ Array of symbols to ignore when performing context sensitive checks. For example
 LSystem.ignoredSymbols: readonly Alphabet;
 ```
 
-##### axiom
+##### .`axiom` <a id="l-system-axiom"></a>
 
 The initial phrase of your L-System. The axiom can also bet set later via `setAxiom()`.
 
@@ -67,7 +68,7 @@ The initial phrase of your L-System. The axiom can also bet set later via `setAx
 LSystem.axiom: Axiom;
 ```
 
-##### iterations
+##### .`iterations` <a id="l-system-iterations"></a>
 
 The number of iterations the L-System will perform when calling `iterate()`. It is also possible to set the iterations by passing it as an argument to the method: `iterate([iterations])`.
 
@@ -75,7 +76,7 @@ The number of iterations the L-System will perform when calling `iterate()`. It 
 LSystem.iterations: number;
 ```
 
-##### defines
+##### .`defines` <a id="l-system-defines"></a>
 
 Key-value Object to set constant values that will be used by the L-System.
 
@@ -83,7 +84,7 @@ Key-value Object to set constant values that will be used by the L-System.
 LSystem.defines: Defines;
 ```
 
-##### productions
+##### .`productions` <a id="l-system-productions"></a>
 
 Key-value Object to set the productions from one symbol to its axiom. Applied when calling `iterate()`.
 
@@ -91,7 +92,7 @@ Key-value Object to set the productions from one symbol to its axiom. Applied wh
 LSystem.productions: Productions;
 ```
 
-##### commands
+##### .`commands` <a id="l-system-commands"></a>
 
 Key-value Object to set Functions to be executed for each symbol in sequential order. Useful for visualization. Used when calling `run()`.
 
@@ -101,7 +102,7 @@ LSystem.commands: Commands;
 
 ### Methods
 
-##### setAxiom(axiom) <a id="set-axiom-method"></a>
+##### .`setAxiom(axiom)` <a id="l-system-set-axiom-method"></a>
 
 Set the axiom of the L-System.
 
@@ -111,7 +112,7 @@ Set the axiom of the L-System.
 LSystem.setAxiom(axiom: AxiomParameter): void;
 ```
 
-##### setDefine(key, define) <a id="set-define-method"></a>
+##### .`setDefine(key, define)` <a id="l-system-set-define-method"></a>
 
 Set a define for the L-System.
 
@@ -122,7 +123,7 @@ Set a define for the L-System.
 LSystem.setDefine(key: DefineKey, define: Define): void;
 ```
 
-##### setDefines(defines) <a id="set-defines-method"></a>
+##### .`setDefines(defines)` <a id="l-system-set-defines-method"></a>
 
 Set multiple defines for the L-System.
 
@@ -132,7 +133,7 @@ Set multiple defines for the L-System.
 LSystem.setDefines(defines: { [key in DefineKey]?: Define }): void;
 ```
 
-##### clearDefines() <a id="clear-defines-method"></a>
+##### .`clearDefines()` <a id="l-system-clear-defines-method"></a>
 
 Clear all defines from the L-System.
 
@@ -140,7 +141,7 @@ Clear all defines from the L-System.
 LSystem.clearDefines(): void;
 ```
 
-##### setProduction(successorParameter, productionParameter) <a id="set-production-method"></a>
+##### .`setProduction(successorParameter, productionParameter)` <a id="l-system-set-production-method"></a>
 
 Set a production for the L-System.
 
@@ -151,7 +152,7 @@ Set a production for the L-System.
 LSystem.setProduction(successorParameter: SuccessorParameter, productionParameter: ProductionParameter): void;
 ```
 
-##### setProductions(productions) <a id="set-productions-method"></a>
+##### .`setProductions(productions)` <a id="l-system-set-productions-method"></a>
 
 Set multiple productions for the L-System.
 
@@ -163,7 +164,7 @@ LSystem.setProductions(productions: {
 }): void;
 ```
 
-##### clearProductions() <a id="clear-productions-method"></a>
+##### .`clearProductions()` <a id="l-system-clear-productions-method"></a>
 
 Clear all productions from the L-System.
 
@@ -171,7 +172,7 @@ Clear all productions from the L-System.
 LSystem.clearProductions(): void;
 ```
 
-##### setCommand(symbol, command) <a id="set-command-method"></a>
+##### .`setCommand(symbol, command)` <a id="l-system-set-command-method"></a>
 
 Set a command for the L-System.
 
@@ -182,7 +183,7 @@ Set a command for the L-System.
 LSystem.setCommand(symbol: Symbol, command: Command): void;
 ```
 
-##### setCommands(commands) <a id="set-commands-method"></a>
+##### .`setCommands(commands)` <a id="l-system-set-commands-method"></a>
 
 Set multiple commands for the L-System.
 
@@ -192,7 +193,7 @@ Set multiple commands for the L-System.
 LSystem.setCommands(commands: { [key in CommandKey]?: Command }): void;
 ```
 
-##### clearCommands() <a id="clear-commands-method"></a>
+##### .`clearCommands()` <a id="l-system-clear-commands-method"></a>
 
 Clear all commands from the L-System.
 
@@ -200,7 +201,7 @@ Clear all commands from the L-System.
 LSystem.clearCommands(): void;
 ```
 
-##### run() <a id="run-method"></a>
+##### .`run()` <a id="l-system-run-method"></a>
 
 Execute the commands defined in the L-System.
 
@@ -208,7 +209,7 @@ Execute the commands defined in the L-System.
 LSystem.run(): void;
 ```
 
-##### iterate() <a id="iterate-method"></a>
+##### .`iterate(iterations?)` <a id="l-system-iterate-method"></a>
 
 Perform a specified number of iterations on the L-System.
 
@@ -218,10 +219,22 @@ Perform a specified number of iterations on the L-System.
 LSystem.iterate(iterations?: number): Axiom;
 ```
 
-##### getAxiomString() <a id="get-axiom-string-method"></a>
+##### .`getAxiomString()` <a id="l-system-get-axiom-string-method"></a>
 
 Get the current axiom of the L-System.
 
 ```ts
 LSystem.getAxiomString(): string;
 ```
+
+## Constants
+
+### Symbols
+
+`BRANCH_SYMBOLS`
+
+`PARAMETRIC_SYMBOLS`
+
+`DEFAULT_SYMBOLS`
+
+`IGNORED_SYMBOLS`

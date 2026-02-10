@@ -5,7 +5,16 @@ import type { Alphabet, Axiom, ContextParameter, Defines } from './types';
 /**
  * Check if a symbol matches a context
  *
- * @param {object}
+ * @template {Alphabet} A Alphabet
+ * @template {Alphabet} I Ignored Alphabet
+ * @param {object} params
+ * @param {Axiom<A>} params.axiom
+ * @param {number} params.index
+ * @param {ContextParameter<A>} params.match
+ * @param {'before'|'after'} params.direction
+ * @param {A} params.alphabet
+ * @param {I} params.ignoredSymbols
+ * @param {Defines} params.defines
  * @returns {boolean}
  */
 export function matchContext<A extends Alphabet, I extends Alphabet>({

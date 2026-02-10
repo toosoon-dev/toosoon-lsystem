@@ -21,11 +21,13 @@ import type {
 /**
  * Normalize parameter into valid axiom
  *
- * @param {AxiomParameter|ProductionResult} parameter
- * @param {Alphabet} alphabet
- * @param {string[]} ignoredSymbols
+ * @template {Alphabet} A Alphabet
+ * @template {Alphabet} I Ignored Alphabet
+ * @param {AxiomParameter<A|I> | ProductionResult<A|I>} parameter
+ * @param {A} alphabet
+ * @param {I} ignoredSymbols
  * @param {Defines} defines
- * @returns {Axiom}
+ * @returns {Axiom<A|I>}
  */
 export function normalizeAxiom<A extends Alphabet, I extends Alphabet>(
   parameter: AxiomParameter<A | I> | ProductionResult<A | I>,
@@ -51,9 +53,11 @@ export function normalizeAxiom<A extends Alphabet, I extends Alphabet>(
 /**
  * Normalize parameter into valid Symbol & Production
  *
- * @param {SuccessorParameter} successorParameter
- * @param {ProductionParameter} productionParameter
- * @returns { symbol: Symbol; production: Production }
+ * @template {Alphabet} A Alphabet
+ * @template {Alphabet} I Ignored Alphabet
+ * @param {SuccessorParameter<A>} successorParameter
+ * @param {ProductionParameter<A,I>} productionParameter
+ * @returns { symbol: Symbol<A>; production: Production<A,I> }
  */
 export function normalizeProduction<A extends Alphabet, I extends Alphabet>(
   successorParameter: SuccessorParameter<A>,
@@ -95,8 +99,9 @@ export function normalizeProduction<A extends Alphabet, I extends Alphabet>(
 /**
  * Transform context classic syntax
  *
- * @param {SuccessorParameter} successorParameter
- * @returns { symbol: Symbol | ParametricSymbol; context: Context }
+ * @template {Alphabet} A Alphabet
+ * @param {SuccessorParameter<A>} successorParameter
+ * @returns { symbol: Symbol<A>; context: Context<A> }
  */
 export function transformClassicContext<A extends Alphabet>(
   successorParameter: SuccessorParameter<A>
@@ -125,8 +130,9 @@ export function transformClassicContext<A extends Alphabet>(
 /**
  * Transform parametric classic syntax
  *
- * @param {Symbol | ParametricSymbol} parametricSymbol
- * @returns { symbol: Symbol; params: string[] }
+ * @template {Alphabet} A Alphabet
+ * @param {Symbol<A>|ParametricSymbol<A>} parametricSymbol
+ * @returns { symbol: Symbol<A>; params: string[] }
  */
 export function transformClassicParametric<A extends Alphabet>(
   parametricSymbol: Symbol<A> | ParametricSymbol<A>
@@ -148,11 +154,13 @@ export function transformClassicParametric<A extends Alphabet>(
 /**
  * Split a phrase into axiom from an alphabet
  *
+ * @template {Alphabet} A Alphabet
+ * @template {Alphabet} I Ignored Alphabet
  * @param {Phrase} phrase
- * @param {Alphabet} alphabet
- * @param {string[]} ignoredSymbols
+ * @param {A} alphabet
+ * @param {I} ignoredSymbols
  * @param {Defines} defines
- * @returns {Axiom}
+ * @returns {Axiom<A|I>}
  */
 export function transformPhraseToAxiom<A extends Alphabet, I extends Alphabet>(
   phrase: Phrase,
@@ -204,8 +212,8 @@ export function transformPhraseToAxiom<A extends Alphabet, I extends Alphabet>(
 /**
  * Convert keys & values into a Map
  *
- * @param {string[]} keys
- * @param {number[]} values
+ * @param {string[]} [keys]
+ * @param {number[]} [values]
  * @returns {Defines}
  */
 export function transformParamsToDefines(keys?: string[], values?: number[]): Defines {
