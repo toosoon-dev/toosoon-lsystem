@@ -179,7 +179,7 @@ LSystem.setProduction('F', {
 });
 ```
 
-In order to create pseudo-randomness, [toosoon-utils/prng](https://github.com/toosoon-dev/toosoon-utils#pseudo-random-number-generator-prng) functions are used to determine stochastic outputs.
+In order to create pseudo-randomness, [toosoon-prng](https://github.com/toosoon-dev/toosoon-prng) is used to determine stochastic outputs.
 
 ##### Function-based successor
 
